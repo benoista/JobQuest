@@ -1,0 +1,160 @@
+info:
+  title: API Documentation
+  description: Info about all routes
+
+paths:
+  /people:
+    get:
+      response: Get All people
+  /people/register:
+    post:
+      summary: Create new account with password
+      requestBody:
+        name: string
+        firstname : string
+        email: string
+        password : string
+  /people/add:
+    post:
+      summary: Create new user
+      requestBody:
+        name: string
+        firstname: string
+        email: string
+  /people?id={id}:
+    get:
+      summary: Get only 1 people
+      parameters:
+          id: int
+  /people/remove?id={id}:
+    delete:
+      summary: Remove only 1 people
+      parameters:
+        id: int
+  /people/update?id={id}:
+    put:
+      summary: Update 1 people
+      requestBody:
+        name: string
+        firstname: string
+        email: string
+        password: string
+  /companies:
+    get:
+    response: Get All companies
+  /companies/add:
+    post:
+      summary: Create a new company
+      requestBody:
+        name: string
+        website: string
+  /companies?id={id}:
+    get:
+      summary: Get only 1 company
+      parameters:
+        id: int
+  /companies/remove?id={id}:
+    delete:
+      summary: Remove only 1 company
+      parameters:
+        id: int
+  /companies/update?id={id}:
+    put:
+      summary: Update 1 companiy
+      requestBody:
+        name: string
+        website: string
+  /companies/name:
+    get:
+      summary: Get only the company with that name
+      parameters:
+        name: string
+  /sector:
+    get:
+    response: Get All companies
+  /sector/add:
+    post:
+      summary: Create a new sector
+      requestBody:
+        name: string
+  /sector/{id}:
+    get:
+      summary: Get only 1 sector
+      parameters:
+        id: int
+  /sector/remove/{id}:
+    delete:
+      summary: Remove only 1 sector
+      parameters:
+        id: int
+  /sector/update/{id}:
+    put:
+      summary: Update 1 sector
+      requestBody:
+        name: string
+  /advertisement:
+    get:
+    response: Get All advertisement
+  /advertisement/add:
+    post:
+      summary: Create a new advertisement
+      requestBody:
+        title: string
+        short_description: string
+        description: string
+        localization: string
+        company: string
+        contract_type: string
+        date: date
+        working_time: int
+        sector: string
+  /advertisement/{id}:
+    get:
+      summary: Get only 1 advertisement
+      parameters:
+        id: int
+  /advertisement/remove/{id}:
+    delete:
+      summary: Remove only 1 advertisement
+      parameters:
+        id: int
+  /advertisement/update/{id}:
+    put:
+      summary: Update 1 sector
+      requestBody:
+        title: string
+        short_description: string
+        description: string
+        localization: string
+        company: string
+        contract_type: string
+        date: date
+        working_time: int
+        sector: string
+  /applications:
+    get:
+    response: Get All applications
+  /applications/add:
+    post:
+      summary: Create a new applications
+      requestBody:
+        id_ads: int
+        id_people: int
+        message: text
+  /applications/{id}:
+    get:
+      summary: Get only 1 applications
+      parameters:
+        id: int
+  /applications/remove/{id}:
+    delete:
+      summary: Remove only 1 applications
+      parameters:
+        id: int
+  /applications/update/{id}:
+    put:
+      summary: Update 1 applications
+      requestBody:
+        id_ads: int
+        id_people: int
+        message: text
