@@ -1,7 +1,19 @@
-<script>
+<script lang="ts">
     import "../app.css";
-    import Header from "$lib/components/Header.svelte";
+    import {Appstate} from "$lib/models/appstate";
+    import {writable} from "svelte/store";
+    import {setContext} from "svelte";
+    import {browser} from "$app/environment";
+
+    let state = writable(new Appstate);
+    setContext('state', state);
+
+    if(browser){
+         onresize = (()=>{
+            $state.windowWidth = window.innerWidth;
+            console.log("window width: ", $state.windowWidth)
+        })
+    }
 </script>
 
-<Header />
-<slot />
+<slot/>
