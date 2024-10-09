@@ -4,4 +4,4 @@
 </script>
 
 
-<Button> <Checkmark></Checkmark> Publish </Button>
+<Button type="submit"> <Checkmark></Checkmark> Publish </Button>

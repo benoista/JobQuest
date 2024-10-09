@@ -2,9 +2,9 @@
     import AuthenticationLight from "$lib/images/background.jpg";
     import AuthenticationDark from "$lib/images/background.jpg";
     import {Input} from "$lib/shadcncomponents/ui/input";
-    import {load} from "./+page";
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
+
     import { browser } from '$app/environment';
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
@@ -12,7 +12,6 @@
     import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
     import Location from "$lib/components/icons/Location.svelte";
     import {Button} from "$lib/shadcncomponents/ui/button";
-
     let width = 0;
     if (browser) {
         width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -50,12 +49,13 @@
             <div class="lg:p-8">
                 <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <div class="flex flex-col space-y-2 text-center">
-                        <h1 class="text-2xl font-semibold tracking-tight">Sign In</h1>
+                        <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
                     </div>
                     <form action="">
+                        <Input type="text" placeholder="Name" />
                         <Input type="email" placeholder="Email" />
                         <Input type="password" placeholder="Password" />
-                        <Button type="submit">Sign In</Button>
+                        <Button type="submit" on:click={handleSignup()}> Sign up </Button>
                     </form>
                 </div>
             </div>
@@ -65,17 +65,18 @@
         <div class="flex flex-col" style="backdrop-filter: blur(10px)">
                 <Card.Root class="bg-opacity-20 text-white">
                     <Card.Header>
-                        <Card.Title tag="h2" class="text-2xl"> Sign In </Card.Title>
+                        <Card.Title tag="h2" class="text-2xl"> Create an account </Card.Title>
                         <Card.Description>
 
                         </Card.Description>
                     </Card.Header>
                     <Card.Content>
+                        <Input type="text" placeholder="Name" />
                         <Input type="email" placeholder="Email" />
-                        <Input type="password" placeholder="password"></Input>
+                        <Input type="password" placeholder="Password" />
                     </Card.Content>
                     <Card.Footer>
-                        <Button> Sign In </Button>
+                        <Button> Sign up </Button>
                     </Card.Footer>
                 </Card.Root>
         </div>

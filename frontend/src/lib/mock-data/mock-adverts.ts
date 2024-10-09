@@ -1,0 +1,86 @@
+import type {Advert} from "$lib/models/advert";
+import {ContractType} from "$lib/models/contractType";
+
+export let mockAdverts: Advert[] = [
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.fixedTerm,
+        company: "Company 1",
+
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.permanent,
+        company: "Company 2",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.internship,
+        company: "Company 3",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.freelance,
+        company: "Company 4",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.other,
+        company: "Company 5",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.fixedTerm,
+        company: "Company 6",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.permanent,
+        company: "Company 7",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.internship,
+        company: "Company 8",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.freelance,
+        company: "Company 9",
+    },
+    {
+        title: "Software Developer",
+        smallDescription: "This is a small description",
+        salary: 1000,
+        location: "London",
+        contractType: ContractType.other,
+        company: "Company 10",
+    },
+];

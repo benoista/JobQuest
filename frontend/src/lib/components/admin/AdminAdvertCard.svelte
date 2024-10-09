@@ -1,23 +1,37 @@
 <script lang="ts">
-    import * as Card from "$lib/shadcncomponents/ui/card";
-    import type {smallAdvert} from "$lib/models/smallAdvert";
+    import type {Advert} from "$lib/models/advert";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Salary from "$lib/components/icons/Salary.svelte";
     import Location from "$lib/components/icons/Location.svelte";
-    import Calendar from "$lib/components/icons/Calendar.svelte";
-    import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
-    import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
     import EditButton from "$lib/components/buttons/EditButton.svelte";
-    import PublishButton from "$lib/components/buttons/PublishButton.svelte";
     import {Button} from "$lib/shadcncomponents/ui/button";
-    export let smallAdvert : smallAdvert = {
+    import {ContractType} from "$lib/models/contractType";
+    import * as Card from "$lib/shadcncomponents/ui/card";
+    export let smallAdvert : Advert = {
         title: "Software Developer",
         smallDescription: " We are looking for a software developer to join our team",
         location: "Lagos",
         salary: 15000,
-        contract: "Full Time",
+        contractType: ContractType.permanent,
         company: "Gogoule",
     };
+
+
+    /**
+     * TODO this function deletes the current advert by sending a delete request to the server
+     */
+    function handleDelete() {
+        console.log("Delete");
+    }
+
+    /**
+     * TODO this functions opens a modal with the create Advert component with the current advert passed as a prop
+     */
+    function handleEdit() {
+        console.log("Edit");
+    }
+
+
 </script>
 
 <Card.Root>
@@ -27,7 +41,7 @@
             <div class="flex flex-col gap-2">
                 <div class="text-xl">{smallAdvert.company}</div>
                 <div class="flex flex-row gap-2">
-                    <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contract} </div>
+                    <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contractType} </div>
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
                     <div class="flex flex-row"><Location></Location> {smallAdvert.location} </div>
                 </div>
@@ -39,7 +53,7 @@
     </Card.Content>
     <Card.Footer>
         <div class="flex flex-row gap-3">
-            <EditButton></EditButton>
+            <EditButton advert="{smallAdvert}"></EditButton>
             <Button variant="destructive"> Delete</Button>
         </div>
     </Card.Footer>
