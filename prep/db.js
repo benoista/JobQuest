@@ -1,11 +1,13 @@
 // Connection to mysql database
 const mysql = require('mysql');
+//Get .env
+require('dotenv').config()
 
 const connection = mysql.createConnection({
-  host: '127.0.0.1', //Host
-  user: 'root', //user
-  password: '', // password
-  database: 'jobboard', // Database name
+  host:  process.env.DB_HOST, //Host
+  user:  process.env.DB_USER, //user
+  password: process.env.DB_PASS, // password
+  database: process.env.DB_NAME, // Database name
 });
 
 // Error check

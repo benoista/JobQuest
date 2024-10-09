@@ -8,28 +8,55 @@ const db = require('../db.js');
 //Select ALL
 router.get('/', (req, res) => { 
     const id = req.query.id;
-
-    if (id){
-        const query = 'SELECT title, short_description, companies.NAME AS company, localization, salary, contract_type, date, working_time, sector.NAME AS sector FROM advertisements JOIN companies ON advertisements.company = companies.id JOIN sector ON advertisements.id_sector = sector.id WHERE advertisements.id = (?)';
-        const values = [id];
-    
-        db.query(query, values, (err, results) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send('Data recovery error');
-            }
-            res.json(results);
-        });
-    } else {
-        const query = 'SELECT title, short_description, companies.NAME AS company, localization, salary, contract_type, date, working_time, sector.NAME AS sector FROM advertisements JOIN companies ON advertisements.company = companies.id JOIN sector ON advertisements.id_sector = sector.id';
-        db.query(query, (err, results) => {
-            if (err) {
-                return res.status(500).send('Data recovery error');
-            }
-            res.json(results);
-        });
+    const title = req.query.title;
+    const companies = req.query.companies;
+    const localization = req.query.localization;
+    const salary = req.query.salary;
+    const contract_type = req.query.contract_type;
+    const date = req.query.date;
+    const sector = req.query.sector;
+    const values = [];
+    const join =[]
+    if (id) {values.push(`id = '${id}'`);}
+    if (title) {values.push(`title = '${title}'`);}
+    if (companies) {
+        values.push(`companies.id = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
+        join.push('JOIN companies ON advertisements.company = companies.id ')
     }
+    if (localization) {values.push(`localization = '${localization}'`);}
+    if (salary) {values.push(`salary >= '${salary}'`);}
+    if (contract_type) {values.push(`contract_type = '${contract_type}'`);}
+    if (date) {values.push(`date = '${date}'`);}
+    if (sector) {
+        values.push(`sector.id = (SELECT id FROM sector WHERE sector.name = '${sector}')`);
+        join.push('JOIN sector ON id_sector = sector.id')
+    }
+
+    let whereClause = ""; 
+    let joinClause ="";
+
+    if (values.length === 0) {
+        whereClause = "";
+    } else {
+        whereClause = 'WHERE ' + values.join(' AND ');
+    }
+    
+    if(join.length === 0){
+        joinClause = "";
+    } else {
+        joinClause = join.join('');
+    }
+
+    const sqlQuery = `SELECT * FROM advertisements ${joinClause} ${whereClause}`;
+    db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
+    if (err) {
+        return res.status(500).send(err);
+    }
+    res.status(200).json(results);
+    });
 });
+
+
 
 //Add new person 
 router.post('/add', (req, res) => {
@@ -54,7 +81,6 @@ router.post('/add', (req, res) => {
         const insertQuery = `
             INSERT INTO advertisements (title, short_description, description, company, localization, salary, contract_type, date, working_time, id_sector) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const insertValues = [title, short_description, description, companyiD, localization, salary, contract_type, date, working_time, sectoriD];
-        console.log(insertValues);
 
         db.query(insertQuery, insertValues, (err, results) => {
             if (err) {

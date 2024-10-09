@@ -3,11 +3,17 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 const db = require('../db.js');
-
+//JWT
+const jwt = require('jsonwebtoken');
+//Get .env
+require('dotenv').config()
 //HashPassword
 function hashPassword(password){
     return crypto.createHash('sha256').update(password).digest('hex');
 }
+
+//const secretKey = crypto.randomBytes(64).toString('hex');
+const secretKey = process.env.DB_HOST;
 
 //Select ALL
 router.get('/', (req, res) => { 
@@ -60,6 +66,25 @@ router.post('/register', (req, res) => {
             return res.status(500).send('Error during register data :');
         }
         res.status(200).send(true);
+    });
+});
+
+//Login account
+router.post('/login', (req, res) => {
+    const { email, password} = req.body;
+
+    const query = 'SELECT id, is_admin FROM people WHERE email = ? AND password = ?';
+    const values = [email, hashPassword(password)];
+    db.query(query, values, (err, results) => {
+        if (err) {
+            return res.status(500).send('Error during register data :');
+        }
+        if (results.length === 0){
+            return res.status(500).send('Invalid Email or Password :');
+        } else{
+            const token = jwt.sign({ userId: results[0].id, isAdmin: results[0].is_admin}, secretKey, {expiresIn: '1h',});
+            res.status(200).send(token);
+        }
     });
 });
 
