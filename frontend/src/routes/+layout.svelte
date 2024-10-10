@@ -7,10 +7,9 @@
     import type {FullAdvert} from "$lib/models/full-advert";
     import type {Advertisement} from "$lib/models/advertisement";
 
-    let state = writable(new Appstate(null,0));
+    let state = writable(new Appstate());
     setContext('state', state);
-    let adverts : Advertisement[] = writable([]);
-
+    let adverts : Advertisement[] = writable<Advertisement[]>([]);
     setContext('adverts', adverts);
     /**
      * Updates the window width on resize
