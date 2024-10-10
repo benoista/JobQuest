@@ -45,6 +45,8 @@ export async function handleSignUp(event: FormDataEvent){
 
         if (!res.ok) {
             throw new Error('Error to sign up user');
+        } else {
+            window.location.href = '/';
         }
 
         const data: User = await res.json();// parse response into a user object

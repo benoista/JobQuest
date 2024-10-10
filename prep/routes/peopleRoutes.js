@@ -58,14 +58,26 @@ router.post('/add', (req, res) => {
 //Creating new account
 router.post('/register', (req, res) => {
     const { name, firstname, email, password} = req.body;
-    const query = 'INSERT INTO people (name, firstname, email, password, is_user) VALUES (?, ?, ?, ?, 1)';
-    const values = [name, firstname, email, hashPassword(password)];
 
-    db.query(query, values, (err, results) => {
+    const checkEmailQuery = 'SELECT * FROM people WHERE email = ?';
+    db.query(checkEmailQuery, [email], (err, results) => {
         if (err) {
-            return res.status(500).send('Error during register data :');
+            return res.status(500).send('Error checking email: ' + err.message);
         }
-        res.status(200).send(true);
+
+        if (results.length > 0) {
+            return res.status(409).send('Email already exists.');
+        }
+
+        const query = 'INSERT INTO people (name, firstname, email, password, is_user) VALUES (?, ?, ?, ?, 1)';
+        const values = [name, firstname, email, hashPassword(password)];
+
+        db.query(query, values, (err, results) => {
+            if (err) {
+                return res.status(500).send('Error during register data: ' + err.message);
+            }
+            res.status(200).send(true);
+        });
     });
 });
 
