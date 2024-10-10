@@ -18,12 +18,13 @@
         <Card.Description>
             <div class="flex flex-col gap-2">
                 <div class="text-xl">{smallAdvert.company}</div>
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 flex-wrap">
                     <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contract_type} </div>
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
                     <div class="flex flex-row"><Location></Location> {smallAdvert.localization} </div>
                     <div class="flex flex-row"><Calendar></Calendar> {smallAdvert.date} </div>
                     <div class="flex flex-row"><Location></Location> {smallAdvert.id_sector} </div>
+                    <div class="flex flex-row"><Location></Location> {smallAdvert.working_time} </div>
                 </div>
             </div>
         </Card.Description>
