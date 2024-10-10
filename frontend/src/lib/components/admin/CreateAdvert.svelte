@@ -4,21 +4,21 @@
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Location from "$lib/components/icons/Location.svelte";
     import {Input} from "$lib/shadcncomponents/ui/input";
-    import type {Advert} from "$lib/models/advert";
+    import type {Advertisements} from "$lib/models/advertisements";
     import {ContractType} from "$lib/models/contractType";
     import * as Card from "$lib/shadcncomponents/ui/card";
 
 
     /**
      * Property of the form, set the form fields if an advert is passed else set the default values
-     * @type {Advert}
+     * @type {Advertisements}
      */
-    export let advert: Advert ={
+    export let advert: Advertisements ={
         title: "",
         company: "",
         contractType: ContractType.none,
         salary: 0,
-        location: "",
+        localization: "",
         smallDescription: ""
     };
 
@@ -67,7 +67,7 @@
                         </div>
                         <div class="flex flex-row">
                             <Location></Location>
-                            <Input class="h-5" type="text" name="location" id="location" value="{advert.location}" />
+                            <Input class="h-5" type="text" name="location" id="location" value="{advert.localization}" />
                         </div>
                     </div>
                 </div>
