@@ -4,7 +4,7 @@
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
-    import  { handleSignUp } from "$lib/authentication.js";
+    import  { handleSignUp } from "$lib/controllers/authentication.js";
     import { browser } from '$app/environment';
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";

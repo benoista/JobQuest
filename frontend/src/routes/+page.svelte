@@ -6,8 +6,12 @@
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";
     import SearchJobsForm from "$lib/components/forms/SearchJobsForm.svelte";
     import Header from "$lib/components/Header.svelte";
+    import {writable} from "svelte/store";
+    import type {FullAdvert} from "$lib/models/full-advert.js";
+    import {getContext, setContext} from "svelte";
 
-    export const adverts : Advert[] = mockAdverts;
+    // export const adverts : Advert[] = mockAdverts;
+    const adverts: FullAdvert[] = getContext('adverts');
 </script>
 
 <Header></Header>
@@ -20,7 +24,7 @@
     <div id="search-engine-container"></div>
     <div id="adverts-grid-container">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 m-2">
-            {#each adverts as advert}
+            {#each $adverts as advert}
                 <AdvertCard smallAdvert="{advert}" />
             {/each}
         </div>

@@ -1,7 +1,11 @@
 import type {User} from "$lib/models/user";
 
 export class Appstate {
-    userState: User;
-    windowWidth: number;
-    windowHeight: number;
+    public userState: User;
+    public windowWidth: number;
+
+    constructor(userState: User, windowWidth: number) {
+        this.userState = userState;
+        this.windowWidth = windowWidth;
+    }
 }
