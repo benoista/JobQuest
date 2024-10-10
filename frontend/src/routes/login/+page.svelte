@@ -6,15 +6,15 @@
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
     import { browser } from '$app/environment';
-    import  { errorMess } from "$lib/authentication.js";
-    import  { handleSignIn } from "$lib/authentication.js";
+    import  { errorMess } from "$lib/controllers/authentication.js";
+    import  { handleSignIn } from "$lib/controllers/authentication.js";
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
     import Location from "$lib/components/icons/Location.svelte";
     import {Button} from "$lib/shadcncomponents/ui/button";
-    import {handleSignUp} from "$lib/authentication";
+    import {handleSignUp} from "$lib/controllers/authentication";
 
     let width = 0;
     if (browser) {

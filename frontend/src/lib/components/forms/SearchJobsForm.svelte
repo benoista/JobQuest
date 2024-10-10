@@ -2,12 +2,17 @@
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {ContractType} from "$lib/models/contractType";
     import {Button} from "$lib/shadcncomponents/ui/button";
-    import type {Advert} from "$lib/models/advert";
     import {Sectors} from "$lib/models/sectors";
+    import {getAllAdvertisements} from "$lib/controllers/advertisements";
+    import {getContext} from "svelte";
 
-    function handleSubmit(event: SubmitEvent){
+    const advertsStore = getContext('adverts');
+     function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
-        console.log("submitted search form");
+        getAllAdvertisements().then((adverts) => {
+            $advertsStore = adverts
+            console.log(adverts);
+        });
 
     }
 </script>
