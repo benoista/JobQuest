@@ -6,7 +6,6 @@
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
     import { browser } from '$app/environment';
-    import  { errorMess } from "$lib/controllers/authentication.js";
     import  { handleSignIn } from "$lib/controllers/authentication.js";
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
@@ -53,14 +52,11 @@
                     <div class="flex flex-col space-y-2 text-center">
                         <h1 class="text-2xl font-semibold tracking-tight">Sign In</h1>
                     </div>
-                    <form on:submit={handleSignIn} class="text-black flex flex-col gap-4">
+                    <form on:submit={(e) => handleSignIn(e)} class="text-black flex flex-col gap-4">
                         <Input type="email" name="email" placeholder="Email" required />
                         <Input type="password" name="password" placeholder="Password" required />
                         <Button type="submit">Sign In</Button>
                     </form>
-                    {#if errorMess}
-                        <p class="error-message">{errorMess}</p>
-                    {/if}
                 </div>
             </div>
         </div>
@@ -81,9 +77,6 @@
                             <Button type="submit">Sign In</Button>
                         </form>
                     </Card.Content>
-                    {#if errorMess}
-                        <p class="error-message">{errorMess}</p>
-                    {/if}
                 </Card.Root>
         </div>
     </div>

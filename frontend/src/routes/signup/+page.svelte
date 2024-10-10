@@ -24,6 +24,11 @@
         });
     }
 
+    function handleSubmit(e) {
+        const res = handleSignUp(e).then((res) => {
+            alert(res);
+        });
+    }
 
 
 </script>
@@ -49,7 +54,7 @@
                     <div class="flex flex-col space-y-2 text-center">
                         <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
                     </div>
-                    <form on:submit={handleSignUp} class="flex flex-col gap-4">
+                    <form on:submit={handleSubmit} class="flex flex-col gap-4">
                         <Input type="text" name="name" placeholder="Name" required/>
                         <Input type="text" name="firstname" placeholder="Firstname" required/>
                         <Input type="email" name="email" placeholder="Email" required/>
@@ -70,7 +75,7 @@
                         </Card.Description>
                     </Card.Header>
                     <Card.Content>
-                        <form on:submit={handleSignUp} class="text-black flex flex-col gap-2">
+                        <form on:submit={handleSubmit} class="text-black flex flex-col gap-2">
                             <Input type="text" name="name" placeholder="Name" required />
                             <Input type="text" name="firstname" placeholder="Firstname" required />
                             <Input type="email" name="email" placeholder="Email" required />

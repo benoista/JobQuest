@@ -10,6 +10,7 @@ export type Signin = {
 export type Signup = {
     name: string,
     email: string,
+    firstname: string,
     password: string,
 }
 
@@ -26,12 +27,11 @@ export async function handleSignUp(event: FormDataEvent){
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
-
     const body: Signup = {
-        name: formData.get("name"),
-        firstname: formData.get("firstname"),
-        email: formData.get("email"),
-        password: formData.get("password")
+        name: formData.get("name")!.toString(),
+        firstname: formData.get("firstname")!.toString(),
+        email: formData.get("email")!.toString(),
+        password: formData.get("password")!.toString()
     };
 
     try {
@@ -44,18 +44,26 @@ export async function handleSignUp(event: FormDataEvent){
         });
 
         if (!res.ok) {
-            throw new Error('Error to sign up user');
+            switch (res.status) {
+                case 409:
+                    alert('This email is already used');
+                    break;
+                default:
+                    alert('An unexpected error occurred');
+                    break;
+            }
+            return;
         } else {
             window.location.href = '/';
         }
 
-        const data: User = await res.json();// parse response into a user object
+        const data: User = await res.json(); // parse response into a user object
         console.log(data);
+        return data;
 
     } catch (error) {
         console.error('Error:', error);
     }
-
 }
 
 /**
@@ -67,7 +75,6 @@ export async function handleSignUp(event: FormDataEvent){
  *
  * @param event
  */
-export let errorMess: string = "";  // Déclaré en local, donc réactif pour Svelte
 
 export async function handleSignIn(event: FormDataEvent) {
     event.preventDefault();
@@ -89,12 +96,18 @@ export async function handleSignIn(event: FormDataEvent) {
         });
 
         if (!res.ok) {
-            errorMess = 'Invalid email or password';
+            switch (res.status) {
+                case 401:
+                    alert('Invalid email or password');
+                    break;
+                default:
+                    alert('An unexpected error occurred');
+            }
         } else {
             window.location.href = '/';
         }
     } catch (error) {
-        errorMess = 'An unexpected error occurred';
+        console.log(error);
     }
 }
 
