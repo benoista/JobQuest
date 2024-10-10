@@ -2,11 +2,11 @@
     import {buttonVariants} from "$lib/shadcncomponents/ui/button/index.js";
     import Edit from "$lib/components/icons/Edit.svelte";
     import CreateAdvert from "$lib/components/admin/CreateAdvert.svelte";
-    import type {Advertisements} from "$lib/models/advertisements";
+    import type {Advertisement} from "$lib/models/advertisement";
     import {ContractType} from "$lib/models/contractType";
     import * as Dialog from "$lib/shadcncomponents/ui/dialog";
 
-    export let advert: Advertisements;
+    export let advert: Advertisement;
 </script>
 
 <Dialog.Root>

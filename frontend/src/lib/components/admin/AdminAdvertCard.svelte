@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Advertisements} from "$lib/models/advertisements";
+    import type {Advertisement} from "$lib/models/advertisement";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Salary from "$lib/components/icons/Salary.svelte";
     import Location from "$lib/components/icons/Location.svelte";
@@ -7,7 +7,7 @@
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {ContractType} from "$lib/models/contractType";
     import * as Card from "$lib/shadcncomponents/ui/card";
-    export let smallAdvert : Advertisements = {
+    export let smallAdvert : Advertisement = {
         title: "Software Developer",
         smallDescription: " We are looking for a software developer to join our team",
         localization: "Lagos",
