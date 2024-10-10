@@ -47,7 +47,8 @@ export async function handleSignUp(event: FormDataEvent){
             throw new Error('Error to sign up user');
         }
 
-        const data: User = await res.json();    // parse response into a user object
+        const data: User = await res.json();// parse response into a user object
+        console.log(data);
 
     } catch (error) {
         console.error('Error:', error);
