@@ -1,0 +1,59 @@
+# Use root/example as user/password credentials
+version: '3.1'
+ 
+services:
+  frontend:
+    build:
+      context: ./frontend
+ 
+    environment:
+      # Internal server error messages will not send stacktrace to the browser in production
+      - NODE_ENV=production
+    # Points to a file with the sensitive environment variables
+    env_file:
+      - ./frontend/.env
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+ 
+  db:
+      image: mysql:latest
+      restart: always
+      # (this is just an example, not intended to be a production configuration)
+      networks:
+        - backend
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: password
+      volumes:
+        - "./db/jobboard.sql:/docker-entrypoint-initdb.d/1.sql"
+      healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 10s
+        retries: 10
+  api:
+    build:
+      context: ./prep
+ 
+    environment:
+      # Internal server error messages will not send stacktrace to the browser in production
+      - NODE_ENV=production
+    # Points to a file with the sensitive environment variables
+    env_file:
+      - ./prep/.env
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+ 
+ 
+  
+ 
+networks:
+  backend:
+    driver: bridge

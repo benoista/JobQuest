@@ -58,21 +58,32 @@ router.post('/add', (req, res) => {
 //Creating new account
 router.post('/register', (req, res) => {
     const { name, firstname, email, password} = req.body;
-    const query = 'INSERT INTO people (name, firstname, email, password, is_user) VALUES (?, ?, ?, ?, 1)';
-    const values = [name, firstname, email, hashPassword(password)];
 
-    db.query(query, values, (err, results) => {
+    const checkEmailQuery = 'SELECT * FROM people WHERE email = ?';
+    db.query(checkEmailQuery, [email], (err, results) => {
         if (err) {
-            return res.status(500).send('Error during register data :');
+            return res.status(500).send('Error checking email: ' + err.message);
         }
-        res.status(200).send(true);
+
+        if (results.length > 0) {
+            return res.status(409).send('Email already exists.');
+        }
+
+        const query = 'INSERT INTO people (name, firstname, email, password, is_user) VALUES (?, ?, ?, ?, 1)';
+        const values = [name, firstname, email, hashPassword(password)];
+
+        db.query(query, values, (err, results) => {
+            if (err) {
+                return res.status(500).send('Error during register data: ' + err.message);
+            }
+            res.status(200).send(true);
+        });
     });
 });
 
 //Login account
 router.post('/login', (req, res) => {
-    const { email, password} = req.body;
-
+    const { email, password} = req.body;    
     const query = 'SELECT id, is_admin FROM people WHERE email = ? AND password = ?';
     const values = [email, hashPassword(password)];
     db.query(query, values, (err, results) => {
@@ -82,8 +93,15 @@ router.post('/login', (req, res) => {
         if (results.length === 0){
             return res.status(500).send('Invalid Email or Password :');
         } else{
+            
             const token = jwt.sign({ userId: results[0].id, isAdmin: results[0].is_admin}, secretKey, {expiresIn: '1h',});
-            res.status(200).send(token);
+            res.cookie('token', token, {
+                httpOnly: true, // Protège le cookie des accès JavaScript
+                secure: false,  // Mettez à true en production avec HTTPS
+                sameSite: 'Strict', // Aide à prévenir les attaques CSRF
+                maxAge: 60 * 60 * 100,
+            });
+            res.status(200).json({ token });
         }
     });
 });

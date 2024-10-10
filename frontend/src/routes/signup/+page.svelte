@@ -4,7 +4,7 @@
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
-
+    import  { handleSignUp } from "$lib/authentication.js";
     import { browser } from '$app/environment';
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
@@ -17,12 +17,10 @@
         width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
         setTimeout(() => {
-            console.log(width);
         }, 1000);
 
         window.addEventListener('resize',() => {
             width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-            console.log(width);
         });
     }
 
@@ -51,11 +49,12 @@
                     <div class="flex flex-col space-y-2 text-center">
                         <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
                     </div>
-                    <form action="">
-                        <Input type="text" placeholder="Name" />
-                        <Input type="email" placeholder="Email" />
-                        <Input type="password" placeholder="Password" />
-                        <Button type="submit" on:click={handleSignup()}> Sign up </Button>
+                    <form on:submit={handleSignUp} class="flex flex-col gap-4">
+                        <Input type="text" name="name" placeholder="Name" required/>
+                        <Input type="text" name="firstname" placeholder="Firstname" required/>
+                        <Input type="email" name="email" placeholder="Email" required/>
+                        <Input type="password" name="password" placeholder="Password" required/>
+                        <Button type="submit"> Sign up </Button>
                     </form>
                 </div>
             </div>
@@ -71,13 +70,17 @@
                         </Card.Description>
                     </Card.Header>
                     <Card.Content>
-                        <Input type="text" placeholder="Name" />
-                        <Input type="email" placeholder="Email" />
-                        <Input type="password" placeholder="Password" />
+                        <form on:submit={handleSignUp} class="text-black flex flex-col gap-2">
+                            <Input type="text" name="name" placeholder="Name" required />
+                            <Input type="text" name="firstname" placeholder="Firstname" required />
+                            <Input type="email" name="email" placeholder="Email" required />
+                            <Input type="password" name="password" placeholder="Password" required />
+
+                            <Card.Footer>
+                                <Button type="submit" class="items-center"> Sign up </Button>
+                            </Card.Footer>
+                        </form>
                     </Card.Content>
-                    <Card.Footer>
-                        <Button> Sign up </Button>
-                    </Card.Footer>
                 </Card.Root>
         </div>
     </div>

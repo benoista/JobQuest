@@ -6,24 +6,25 @@
     import {onMount} from "svelte";
     import * as Card from "$lib/shadcncomponents/ui/card";
     import { browser } from '$app/environment';
+    import  { errorMess } from "$lib/authentication.js";
+    import  { handleSignIn } from "$lib/authentication.js";
     import Salary from "$lib/components/icons/Salary.svelte";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
     import Location from "$lib/components/icons/Location.svelte";
     import {Button} from "$lib/shadcncomponents/ui/button";
+    import {handleSignUp} from "$lib/authentication";
 
     let width = 0;
     if (browser) {
         width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
         setTimeout(() => {
-            console.log(width);
         }, 1000);
 
         window.addEventListener('resize',() => {
             width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-            console.log(width);
         });
     }
 
@@ -52,11 +53,14 @@
                     <div class="flex flex-col space-y-2 text-center">
                         <h1 class="text-2xl font-semibold tracking-tight">Sign In</h1>
                     </div>
-                    <form action="">
-                        <Input type="email" placeholder="Email" />
-                        <Input type="password" placeholder="Password" />
+                    <form on:submit={handleSignIn} class="text-black flex flex-col gap-4">
+                        <Input type="email" name="email" placeholder="Email" required />
+                        <Input type="password" name="password" placeholder="Password" required />
                         <Button type="submit">Sign In</Button>
                     </form>
+                    {#if errorMess}
+                        <p class="error-message">{errorMess}</p>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -71,12 +75,15 @@
                         </Card.Description>
                     </Card.Header>
                     <Card.Content>
-                        <Input type="email" placeholder="Email" />
-                        <Input type="password" placeholder="password"></Input>
+                        <form on:submit={handleSignIn} class="text-black flex flex-col gap-2">
+                            <Input type="email" name="email" placeholder="Email" required />
+                            <Input type="password" name="password" placeholder="Password" required />
+                            <Button type="submit">Sign In</Button>
+                        </form>
                     </Card.Content>
-                    <Card.Footer>
-                        <Button> Sign In </Button>
-                    </Card.Footer>
+                    {#if errorMess}
+                        <p class="error-message">{errorMess}</p>
+                    {/if}
                 </Card.Root>
         </div>
     </div>

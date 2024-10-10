@@ -22,22 +22,20 @@ export type Signup = {
  * if the server returns a user object set the app state with the user object
  * @param event
  */
-async function handleSignUp(event: FormDataEvent){
+export async function handleSignUp(event: FormDataEvent){
     event.preventDefault();
-    const formData = event.formData;
-    const signup: Signup = JSON.parse(JSON.stringify(formData));
 
-    console.log(signup);
+    const formData = new FormData(event.target as HTMLFormElement);
 
     const body: Signup = {
-        name: formData.get("name").toString(),
-        email: formData.get('email').toString(),
-        password: formData.get('password').toString(),
-    }
-
+        name: formData.get("name"),
+        firstname: formData.get("firstname"),
+        email: formData.get("email"),
+        password: formData.get("password")
+    };
 
     try {
-        const res = await fetch('http://localhost:3000/signup', {
+        const res = await fetch('http://localhost:3000/people/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,11 +45,12 @@ async function handleSignUp(event: FormDataEvent){
 
         if (!res.ok) {
             throw new Error('Error to sign up user');
+        } else {
+            window.location.href = '/';
         }
 
-        const data: User = await res.json();    // parse response into a user object
+        const data: User = await res.json();// parse response into a user object
         console.log(data);
-
 
     } catch (error) {
         console.error('Error:', error);
@@ -68,34 +67,35 @@ async function handleSignUp(event: FormDataEvent){
  *
  * @param event
  */
-function handleSignIn(event:FormDataEvent){
+export let errorMess: string = "";  // Déclaré en local, donc réactif pour Svelte
+
+export async function handleSignIn(event: FormDataEvent) {
     event.preventDefault();
-    const formData = event.formData;
+    const formData = new FormData(event.target as HTMLFormElement);
 
     const body: Signin = {
-        email: formData.get('email').toString(),
-        password: formData.get('password').toString(),
-    }
-    console.log(body);
+        email: formData.get("email")?.toString() || "",
+        password: formData.get("password")?.toString() || ""
+    };
 
-    fetch('http://localhost:3000/signup', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                console.log(data);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+    try {
+        const res = await fetch('http://localhost:3000/people/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            credentials: 'include'
         });
+
+        if (!res.ok) {
+            errorMess = 'Invalid email or password';
+        } else {
+            window.location.href = '/';
+        }
+    } catch (error) {
+        errorMess = 'An unexpected error occurred';
+    }
 }
 
 /**
