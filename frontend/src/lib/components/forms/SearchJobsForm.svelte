@@ -3,17 +3,16 @@
     import {ContractType} from "$lib/models/contractType";
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {Sectors} from "$lib/models/sectors";
-    import {getAllAdvertisements} from "$lib/controllers/advertisements";
+    import {getAdvertisements, getAllAdvertisements} from "$lib/controllers/advertisementsController";
     import {getContext} from "svelte";
 
     const advertsStore = getContext('adverts');
-     function handleSubmit(event: SubmitEvent) {
+    function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
-        getAllAdvertisements().then((adverts) => {
+        getAdvertisements(event).then((adverts) => {
             $advertsStore = adverts
             console.log(adverts);
         });
-
     }
 </script>
 <div class="mx-3">
