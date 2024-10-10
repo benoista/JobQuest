@@ -4,16 +4,16 @@
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Location from "$lib/components/icons/Location.svelte";
     import {Input} from "$lib/shadcncomponents/ui/input";
-    import type {Advertisements} from "$lib/models/advertisements";
+    import type {Advertisement} from "$lib/models/advertisement";
     import {ContractType} from "$lib/models/contractType";
     import * as Card from "$lib/shadcncomponents/ui/card";
 
 
     /**
      * Property of the form, set the form fields if an advert is passed else set the default values
-     * @type {Advertisements}
+     * @type {Advertisement}
      */
-    export let advert: Advertisements ={
+    export let advert: Advertisement ={
         title: "",
         company: "",
         contractType: ContractType.none,

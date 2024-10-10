@@ -1,6 +1,6 @@
 import type {ContractType} from "$lib/models/contractType";
 
-export type Advertisements = {
+export type Advertisement = {
     id: number;
     title: string;
     short_description: string;

@@ -1,7 +1,7 @@
-import type {Advertisements} from "$lib/models/advertisements";
+import type {Advertisement} from "$lib/models/advertisement";
 import {ContractType} from "$lib/models/contractType";
 
-export let mockAdverts: Advertisements[] = [
+export let mockAdverts: Advertisement[] = [
     {
         title: "Software Developer",
         smallDescription: "This is a small description",
