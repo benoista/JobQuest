@@ -5,6 +5,8 @@ const app = express();
 // Link to DB connection
 const db = require('./db.js');
 
+
+
 app.use(cors({
     origin: 'http://localhost:3001', // Remplacez par l'origine de votre frontend
     credentials: true // Permet d'envoyer des cookies avec les requêtes

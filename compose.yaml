@@ -14,11 +14,10 @@ services:
       - ./frontend/.env
     restart: unless-stopped
     ports:
-      - 3001:3000
+      - "3001:3000"
  
   db:
       image: mysql:latest
-      restart: always
       # (this is just an example, not intended to be a production configuration)
       networks:
         - backend
@@ -27,7 +26,8 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: password
       volumes:
-        - "./db/jobboard.sql:/docker-entrypoint-initdb.d/1.sql"
+        - ./db/jobboard.sql:/docker-entrypoint-initdb.d/1.sql
+        - ./db/data:/var/lib/mysql
       healthcheck:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
         timeout: 10s
@@ -44,7 +44,7 @@ services:
       - ./prep/.env
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - "3000:3000"
     networks:
       - backend
     depends_on:
