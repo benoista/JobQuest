@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import type {Advert} from "$lib/models/advert";
+    import type {Advertisements} from "$lib/models/advertisements";
     import type {ContractType} from "$lib/models/contractType.ts";
     import {mockAdverts} from "$lib/mock-data/mock-adverts";
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";
@@ -11,7 +11,7 @@
     import {getContext, setContext} from "svelte";
 
     // export const adverts : Advert[] = mockAdverts;
-    const adverts: FullAdvert[] = getContext('adverts');
+    const adverts: Advertisements[] = getContext('adverts');
 </script>
 
 <Header></Header>

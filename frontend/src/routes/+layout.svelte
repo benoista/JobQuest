@@ -5,10 +5,11 @@
     import {setContext} from "svelte";
     import {browser} from "$app/environment";
     import type {FullAdvert} from "$lib/models/full-advert";
+    import type {Advertisements} from "$lib/models/advertisements";
 
-    let state = writable(new Appstate);
+    let state = writable(new Appstate(null,0));
     setContext('state', state);
-    let adverts : FullAdvert[] = writable([]);
+    let adverts : Advertisements[] = writable([]);
 
     setContext('adverts', adverts);
     /**

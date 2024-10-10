@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Advert} from "$lib/models/advert";
+    import type {Advertisements} from "$lib/models/advertisements";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Salary from "$lib/components/icons/Salary.svelte";
     import Location from "$lib/components/icons/Location.svelte";
@@ -7,10 +7,10 @@
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {ContractType} from "$lib/models/contractType";
     import * as Card from "$lib/shadcncomponents/ui/card";
-    export let smallAdvert : Advert = {
+    export let smallAdvert : Advertisements = {
         title: "Software Developer",
         smallDescription: " We are looking for a software developer to join our team",
-        location: "Lagos",
+        localization: "Lagos",
         salary: 15000,
         contractType: ContractType.permanent,
         company: "Gogoule",
@@ -43,7 +43,7 @@
                 <div class="flex flex-row gap-2">
                     <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contractType} </div>
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
-                    <div class="flex flex-row"><Location></Location> {smallAdvert.location} </div>
+                    <div class="flex flex-row"><Location></Location> {smallAdvert.localization} </div>
                 </div>
             </div>
         </Card.Description>
