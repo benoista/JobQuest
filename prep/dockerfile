@@ -1,0 +1,6 @@
+FROM node:lts-alpine
+WORKDIR /myapp
+COPY . /myapp
+RUN npm install
+ 
+CMD [ "node", "app.js" ]

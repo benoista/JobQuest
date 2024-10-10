@@ -6,7 +6,7 @@ const app = express();
 const db = require('./db.js');
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Remplacez par l'origine de votre frontend
+    origin: 'http://localhost:3001', // Remplacez par l'origine de votre frontend
     credentials: true // Permet d'envoyer des cookies avec les requêtes
 }));
 app.use(express.json()); 
