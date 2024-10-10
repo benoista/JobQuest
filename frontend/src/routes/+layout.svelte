@@ -8,6 +8,9 @@
     let state = writable(new Appstate);
     setContext('state', state);
 
+    /**
+     * Updates the window width on resize
+     */
     if(browser){
          onresize = (()=>{
             $state.windowWidth = window.innerWidth;
