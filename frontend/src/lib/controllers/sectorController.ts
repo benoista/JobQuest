@@ -1,10 +1,8 @@
-import type {FullAdvert} from "$lib/models/full-advert";
-import type {Advertisement} from "$lib/models/advertisement";
+import type {Sector} from "$lib/models/sector";
 
-
-export async function getAllAdvertisements() {
+export async function getSectorById(id: number){
     try {
-        const res = await fetch('http://localhost:3000/advertisements');
+        const res = await fetch('http://localhost:3000/sectors/' + id);
         if (!res.ok) {
             switch (res.status) {
                 case 401:
@@ -17,60 +15,25 @@ export async function getAllAdvertisements() {
                     console.log('An error occurred');
             }
         }
-        const json: FullAdvert[] =  await res.json();
+        const json: Sector =  await res.json();
         return json;
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-
-export async function getAdvertisements(event: FormDataEvent) {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-
-    const title = formData.get('title')?.toString() || '';
-    const company = formData.get('company')?.toString() || '';
-    const localization = formData.get('localization')?.toString() || '';
-    const salary = formData.get('salary')?.toString() || '';
-    const contract_type = formData.get('contract_type')?.toString() || '';
-    const sector = formData.get('sector')?.toString() || '';
-    const working_time = formData.get('working_time')?.toString() || '';
-
-
-    try {
-        const res = await fetch('http://localhost:3000/advertisements? title=' + title + '&company=' + company + '&localization=' + localization + '&salary=' + salary + '&contract_type=' + contract_type + '&sector=' + sector + '&working_time=' + working_time);
-        if (!res.ok) {
-            switch (res.status) {
-                case 401:
-                    console.log('Unauthorized');
-                    break;
-                case 404:
-                    console.log('Not found');
-                    break;
-                default:
-                    console.log('An error occurred');
-            }
-        }
-        const json: FullAdvert[] =  await res.json();
-        return json;
-    } catch (error) {
-        console.error('Error:', error);
+export async function createSector(name: string){
+    const body = {
+        name: name
     }
-}
-
-
-async function addAdvertisement(ad : Advertisement){
-
     try {
-        const res = await fetch('http://localhost:3000/advertisements', {
+        const res = await fetch('http://localhost:3000/sectors/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(ad),
+            body: JSON.stringify(body),
             credentials: 'include', // include JWT token in the request
-
         });
         if (!res.ok) {
             switch (res.status) {
@@ -85,7 +48,7 @@ async function addAdvertisement(ad : Advertisement){
             }
         }
         else {
-            alert('Advertisement added');
+            alert('Sector added');
         }
 
     } catch (error) {
@@ -93,10 +56,9 @@ async function addAdvertisement(ad : Advertisement){
     }
 }
 
-async function deleteAdvertisement(id : number){
-
+export async function deleteSector(id: number){
     try {
-        const res = await fetch('http://localhost:3000/advertisements/remove?id=' + id, {
+        const res = await fetch('http://localhost:3000/sectors/remove?id=' + id, {
             method: 'DELETE',
             credentials: 'include', // include JWT token in the request
         });
@@ -113,7 +75,7 @@ async function deleteAdvertisement(id : number){
             }
         }
         else {
-            alert('Advertisement deleted');
+            alert('Sector deleted');
         }
 
     } catch (error) {
@@ -121,13 +83,17 @@ async function deleteAdvertisement(id : number){
     }
 }
 
-export async function getAdvertisementDescription(id : number) {
+export async function updateSector(id: number, name: string){
+    const body = {
+        name: name
+    }
     try {
-        const res = await fetch('http://localhost:3000/advertisements/description?id=' + id, {
-            method: 'GET',
+        const res = await fetch('http://localhost:3000/sectors/update?id=' + id, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(body),
             credentials: 'include', // include JWT token in the request
         });
         if (!res.ok) {
@@ -142,11 +108,33 @@ export async function getAdvertisementDescription(id : number) {
                     console.log('An error occurred');
             }
         }
-        const json: string =  await res.json();
-        console.log("advertisement description: " + json);
-        return json;
+        else {
+            alert('Sector updated');
+        }
+
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
+export async function getSectorByName(name:string){
+    try {
+        const res = await fetch('http://localhost:3000/sectors/name/?' + name);
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    console.log('Unauthorized');
+                    break;
+                case 404:
+                    console.log('Not found');
+                    break;
+                default:
+                    console.log('An error occurred');
+            }
+        }
+        const json: Sector =  await res.json();
+        return json;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
