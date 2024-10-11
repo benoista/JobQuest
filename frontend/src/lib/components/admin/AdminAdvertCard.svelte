@@ -7,15 +7,8 @@
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {ContractType} from "$lib/models/contractType";
     import * as Card from "$lib/shadcncomponents/ui/card";
-    export let smallAdvert : Advertisement = {
-        title: "Software Developer",
-        smallDescription: " We are looking for a software developer to join our team",
-        localization: "Lagos",
-        salary: 15000,
-        contractType: ContractType.permanent,
-        company: "Gogoule",
-    };
-
+    import type {FullAdvert} from "$lib/models/full-advert";
+    export let smallAdvert : FullAdvert;
 
     /**
      * TODO this function deletes the current advert by sending a delete request to the server
@@ -43,13 +36,13 @@
                 <div class="flex flex-row gap-2">
                     <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contractType} </div>
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
-                    <div class="flex flex-row"><Location></Location> {smallAdvert.localization} </div>
+                    <div class="flex flex-row"><Location></Location> {smallAdvert.location} </div>
                 </div>
             </div>
         </Card.Description>
     </Card.Header>
     <Card.Content>
-        <p>{smallAdvert.smallDescription}</p>
+        <p>{smallAdvert.shortDescription}</p>
     </Card.Content>
     <Card.Footer>
         <div class="flex flex-row gap-3">

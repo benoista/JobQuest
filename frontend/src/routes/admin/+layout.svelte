@@ -6,3 +6,5 @@
 
 
 </script>
+
+<slot></slot>
