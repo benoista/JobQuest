@@ -93,15 +93,8 @@ router.post('/login', (req, res) => {
         if (results.length === 0){
             return res.status(500).send('Invalid Email or Password :');
         } else{
-            
             const token = jwt.sign({ userId: results[0].id, isAdmin: results[0].is_admin}, secretKey, {expiresIn: '1h',});
-            res.cookie('token', token, {
-                httpOnly: true, // Protège le cookie des accès JavaScript
-                secure: false,  // Mettez à true en production avec HTTPS
-                sameSite: 'Strict', // Aide à prévenir les attaques CSRF
-                maxAge: 60 * 60 * 100,
-            });
-            res.status(200).json({ token });
+            res.status(200).json({token});
         }
     });
 });

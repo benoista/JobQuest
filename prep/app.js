@@ -6,8 +6,7 @@ const app = express();
 const db = require('./db.js');
 
 app.use(cors({
-    origins: ['http://localhost:3001', "http://localhost:5173"], // Remplacez par l'origine de votre frontend
-    credentials: true // Permet d'envoyer des cookies avec les requêtes
+    origins: ['http://localhost:3001', "http://localhost:5173"]
 }));
 app.use(express.json()); 
 

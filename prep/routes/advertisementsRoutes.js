@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
     } else {
         whereClause = 'WHERE ' + values.join(' AND ');
     }
-    
+
     if(join.length === 0){
         joinClause = "";
     } else {
