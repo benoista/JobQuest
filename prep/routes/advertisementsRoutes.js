@@ -6,17 +6,19 @@ const db = require('../db.js');
 
 
 //Select ALL
-router.get('/', (req, res) => { 
+router.get('/', (req, res) => {
+
+    console.log(req.query);
     const id = req.query.id;
     const title = req.query.title;
-    const companies = req.query.companies;
+    const companies = req.query.company;
     const localization = req.query.localization;
     const salary = req.query.salary;
     const contract_type = req.query.contract_type;
     const date = req.query.date;
     const sector = req.query.sector;
     const values = [];
-    const join =[]
+    const join =[];
     if (id) {values.push(`id = '${id}'`);}
     if (title) {values.push(`title = '${title}'`);}
     if (companies) {
@@ -48,6 +50,7 @@ router.get('/', (req, res) => {
     }
 
     const sqlQuery = `SELECT * FROM advertisements ${joinClause} ${whereClause}`;
+    console.log(sqlQuery);
     db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
     if (err) {
         return res.status(500).send(err);

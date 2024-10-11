@@ -21,7 +21,7 @@
         <Input type="number" name="salary" id="salary" placeholder="Salary"> </Input>
         <Input type="text" name="location" id="location" placeholder="Location"> </Input>
         <Input type="text" name="company" id="company" placeholder="Company"> </Input>
-        <select name="contract" id="contract">
+        <select name="contract_type" id="contract_type">
             {#each Object.keys(ContractType) as key}
                 <option value="{ContractType[key]}">{key}</option>
             {/each}

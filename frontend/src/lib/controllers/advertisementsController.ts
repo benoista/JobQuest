@@ -31,15 +31,17 @@ export async function getAdvertisements(event: FormDataEvent) {
 
     const title = formData.get('title')?.toString() || '';
     const company = formData.get('company')?.toString() || '';
-    const localization = formData.get('localization')?.toString() || '';
+    const localization = formData.get('location')?.toString() || '';
     const salary = formData.get('salary')?.toString() || '';
     const contract_type = formData.get('contract_type')?.toString() || '';
     const sector = formData.get('sector')?.toString() || '';
     const working_time = formData.get('working_time')?.toString() || '';
 
+    console.log("title: " + title + " company: " + company + " localization: " + localization + " salary: " + salary + " contract_type: " + contract_type + " sector: " + sector + " working_time: " + working_time)
+
 
     try {
-        const res = await fetch('http://localhost:3000/advertisements? title=' + title + '&company=' + company + '&localization=' + localization + '&salary=' + salary + '&contract_type=' + contract_type + '&sector=' + sector + '&working_time=' + working_time);
+        const res = await fetch('http://localhost:3000/advertisements?title=' + title + '&company=' + company + '&localization=' + localization + '&salary=' + salary + '&contract_type=' + contract_type + '&sector=' + sector + '&working_time=' + working_time);
         if (!res.ok) {
             switch (res.status) {
                 case 401:
