@@ -17,13 +17,13 @@ router.get('/', (req, res) => {
     const contract_type = req.query.contract_type;
     const date = req.query.date;
     const sector = req.query.sector;
+
     const values = [];
-    const join =[];
+
     if (id) {values.push(`id = '${id}'`);}
     if (title) {values.push(`title LIKE '%${title}%'`);}
     if (companies) {
-        values.push(`companies.id = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
-        join.push('JOIN companies ON advertisements.company = companies.id ')
+        values.push(`company = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
     }
     if (localization) {values.push(`localization = '${localization}'`);}
     if (salary) {values.push(`salary >= '${salary}'`);}
@@ -31,11 +31,9 @@ router.get('/', (req, res) => {
     if (date) {values.push(`date = '${date}'`);}
     if (sector) {
         values.push(`sector.id = (SELECT id FROM sector WHERE sector.name = '${sector}')`);
-        join.push('JOIN sector ON id_sector = sector.id')
     }
 
-    let whereClause = ""; 
-    let joinClause ="";
+    let whereClause = "";
 
     if (values.length === 0) {
         whereClause = "";
@@ -43,13 +41,7 @@ router.get('/', (req, res) => {
         whereClause = 'WHERE ' + values.join(' AND ');
     }
 
-    if(join.length === 0){
-        joinClause = "";
-    } else {
-        joinClause = join.join('');
-    }
-
-    const sqlQuery = `SELECT * FROM advertisements ${joinClause} ${whereClause}`;
+    const sqlQuery = `SELECT title, short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, localization, salary, contract_type, date, working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${whereClause}`;
     console.log(sqlQuery);
     db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
     if (err) {
