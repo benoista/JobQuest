@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
     const values = [];
     const join =[];
     if (id) {values.push(`id = '${id}'`);}
-    if (title) {values.push(`title = '${title}'`);}
+    if (title) {values.push(`title LIKE '%${title}%'`);}
     if (companies) {
         values.push(`companies.id = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
         join.push('JOIN companies ON advertisements.company = companies.id ')
