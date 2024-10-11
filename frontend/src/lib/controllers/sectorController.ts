@@ -138,3 +138,25 @@ export async function getSectorByName(name:string){
         console.error('Error:', error);
     }
 }
+
+export async function getAllSectors(){
+    try {
+        const res = await fetch('http://localhost:3000/sectors');
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    console.log('Unauthorized');
+                    break;
+                case 404:
+                    console.log('Not found');
+                    break;
+                default:
+                    console.log('An error occurred');
+            }
+        }
+        const json: Sector[] =  await res.json();
+        return json;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

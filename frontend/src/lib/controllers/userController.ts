@@ -1,3 +1,5 @@
+import type {User} from "$lib/models/user";
+
 export async function getUserById(id: number){
     try {
         const res = await fetch('http://localhost:3000/people?id=' + id, {
@@ -120,6 +122,32 @@ export async function updateUser(id: number, firstName: string, name: string, em
         }
         else {
             alert('User updated');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export async function getAllUsers(): Promise<User[]> {
+    try {
+        const res = await fetch('http://localhost:3000/people', {
+            method: 'GET',
+        });
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    console.log('Unauthorized');
+                    break;
+                case 404:
+                    console.log('Not found');
+                    break;
+                default:
+                    console.log('An error occurred');
+            }
+        }
+        else {
+            return await res.json();
         }
 
     } catch (error) {
