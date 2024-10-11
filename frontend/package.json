@@ -27,6 +27,7 @@
 		"bits-ui": "^0.21.16",
 		"clsx": "^2.1.1",
 		"lucide-svelte": "^0.451.0",
+		"nock": "^13.5.5",
 		"tailwind-merge": "^2.5.3",
 		"tailwind-variants": "^0.2.1"
 	}

@@ -1,0 +1,7 @@
+# Use the official MySQL image as a base
+FROM mysql:latest
+
+# Set the working directory to /app
+WORKDIR /app
+
+ADD ./schema.sql /docker-entrypoint-initdb.d

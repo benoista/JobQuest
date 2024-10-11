@@ -88,8 +88,8 @@ router.put('/update', (req, res) => {
 });
 
 //Select 1 companie
-router.get('/:name', (req, res) => {
-    const { name } = req.params;
+router.get('/name', (req, res) => {
+    const { name } = req.query.name;
     const query = 'SELECT * FROM sector WHERE name = (?)';
     const values = [name];
     db.query(query, values, (err, results) => {
