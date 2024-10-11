@@ -44,7 +44,7 @@
 
     <!-- Left side -->
         <div class=" bg-muted w-full relative h-full flex-col lg:flex dark:border-r max-lg:blur-sm">
-            <div class="absolute inset-0 bg-cover" style="background-image: url('/src/lib/images/background.jpg')"></div>
+            <div class="absolute inset-0 bg-cover" style="background-image: url('/images/background.jpg');"></div>
         </div>
 
 
@@ -65,7 +65,7 @@
             </div>
         </div>
 {:else}
-    <div class="flex items-center justify-center h-[100vh]" style="background-image: url('/src/lib/images/background.jpg')">
+    <div class="flex items-center justify-center h-[100vh]" style="background-image: url('/images/background.jpg');">
         <div class="flex flex-col" style="backdrop-filter: blur(10px)">
                 <Card.Root class="bg-opacity-20 text-white">
                     <Card.Header>
