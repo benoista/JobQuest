@@ -1,5 +1,4 @@
 <script lang="ts">
-    import PublishButton from "$lib/components/buttons/PublishButton.svelte";
     import Salary from "$lib/components/icons/Salary.svelte";
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import Location from "$lib/components/icons/Location.svelte";
@@ -78,7 +77,7 @@
                 <Input type="text" name="smallDescription" id="smallDescription" placeholder="small description" />
         </Card.Content>
         <Card.Footer>
-            <PublishButton></PublishButton>
+            <button>Button</button>
         </Card.Footer>
     </Card.Root>
 </form>

@@ -76,40 +76,43 @@ export async function handleSignUp(event: FormDataEvent){
  * @param event
  */
 
-export async function handleSignIn(event: FormDataEvent) {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+    export async function handleSignIn(event: FormDataEvent) {
+        event.preventDefault();
+        const formData = new FormData(event.target as HTMLFormElement);
 
-    const body: Signin = {
-        email: formData.get("email")?.toString() || "",
-        password: formData.get("password")?.toString() || ""
-    };
+        const body: Signin = {
+            email: formData.get("email")?.toString() || "",
+            password: formData.get("password")?.toString() || ""
+        };
 
-    try {
-        const res = await fetch('http://localhost:3000/people/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-            credentials: 'include'
-        });
+        try {
+            const res = await fetch('http://localhost:3000/people/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
 
-        if (!res.ok) {
-            switch (res.status) {
-                case 401:
-                    alert('Invalid email or password');
-                    break;
-                default:
-                    alert('An unexpected error occurred');
+            if (!res.ok) {
+                switch (res.status) {
+                    case 401:
+                        alert('Invalid email or password');
+                        break;
+                    default:
+                        alert('An unexpected error occurred');
+                }
+            } else {
+                const data = await res.json();
+                const token = data.token;
+
+                document.cookie = `token=${token}; path=/; max-age=3600; secure; samesite=strict;`;
+                window.location.href = '/';
             }
-        } else {
-            window.location.href = '/';
+        } catch (error) {
+            console.log(error);
         }
-    } catch (error) {
-        console.log(error);
     }
-}
 
 /**
  * Sign out the user
