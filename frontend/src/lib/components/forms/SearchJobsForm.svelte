@@ -5,8 +5,11 @@
     import {Sectors} from "$lib/models/sectors";
     import {getAdvertisements, getAllAdvertisements} from "$lib/controllers/advertisementsController";
     import {getContext} from "svelte";
+    import {getSectors} from "$lib/controllers/sectorController";
 
     const advertsStore = getContext('adverts');
+    let sectorsArray = [];
+    const sectors = getSectors().then((s) => sectorsArray = s);
     function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
         getAdvertisements(event).then((adverts) => {
@@ -22,14 +25,19 @@
         <Input type="text" name="location" id="location" placeholder="Location"> </Input>
         <Input type="text" name="company" id="company" placeholder="Company"> </Input>
         <select name="contract_type" id="contract_type">
-            {#each Object.keys(ContractType) as key}
-                <option value="{ContractType[key]}">{key}</option>
-            {/each}
+            <option value="">Select Contract Type</option>
+            <option value="fixedTerm">fixed-term contract</option>
+            <option value="permanent">permanent contract</option>
+            <option value="internship">internship</option>
+            <option value="freelance">freelance</option>
+            <option value="other">other</option>
+
         </select>
 
         <select name="sector" id="sector-select">
-            {#each Object.keys(Sectors) as key}
-                <option value="{Sectors[key]}">{key}</option>
+            <option value="">Select sector</option>
+            {#each sectorsArray as sector}
+                <option value="{sector['id']}">{sector["name"]}</option>
             {/each}
         </select>
         <Button type="submit"> Submit </Button>
