@@ -5,11 +5,8 @@ import {Textarea} from "$lib/shadcncomponents/ui/textarea/index";
 
 
 
-export const userInfo = {
-    name: 'yayoo',
-    firstName: 'yayoo',
-    email:"aya",
-}
+export let userInfo;
+
 function handleSubmit(e: Event) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
