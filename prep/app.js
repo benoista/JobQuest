@@ -6,8 +6,9 @@ const app = express();
 const db = require('./db.js');
 
 app.use(cors({
-    origins: ['http://localhost:3001', "http://localhost:5173"]
-}));
+    credentials: true,
+    origin: true
+})); // allow all origins
 app.use(express.json()); 
 
 // Link to routes files
