@@ -4,6 +4,37 @@
     import { Button } from "$lib/shadcncomponents/ui/button/index";
     import { Input } from "$lib/shadcncomponents/ui/input/index";
     import { Label } from "$lib/shadcncomponents/ui/label/index";
+    import {updateUser} from "$lib/controllers/userController";
+    import type {User} from "$lib/models/user";
+    import {goto} from "$app/navigation";
+    import {browser} from "$app/environment";
+    import {redirect} from "@sveltejs/kit";
+
+
+
+    export let userInfo: User;
+
+    // TODO implement this function
+    async function handleModifyAccount(event: SubmitEvent) {
+        event.preventDefault();
+        console.log("Account modified");
+        const formData = new FormData(event.target);
+        let name = formData.get("name") as string;
+        let firstName = formData.get("firstName") as string;
+        //  try to update user in the database
+        if (await updateUser(userInfo.id, firstName, name , userInfo.email) == true){
+            console.log("User updated");
+        } else {
+            console.log("User not updated");
+        }
+    }
+
+    // TODO implement this function
+    function handleModifyPassword(event: SubmitEvent) {
+        event.preventDefault();
+        console.log("Password modified");
+    }
+
 </script>
 
 <Tabs.Root value="account" class="w-[400px]">
@@ -19,19 +50,21 @@
                     Make changes to your account here. Click save when you're done.
                 </Card.Description>
             </Card.Header>
-            <Card.Content class="space-y-2">
-                <div class="space-y-1">
-                    <Label for="name">Name</Label>
-                    <Input id="name" value="Pedro Duarte" />
-                </div>
-                <div class="space-y-1">
-                    <Label for="username">Username</Label>
-                    <Input id="username" value="@peduarte" />
-                </div>
-            </Card.Content>
-            <Card.Footer>
-                <Button>Save changes</Button>
-            </Card.Footer>
+            <form action="" on:submit={handleModifyAccount}>
+                <Card.Content class="space-y-2">
+                    <div class="space-y-1">
+                        <Label for="name">Name</Label>
+                        <Input id="name" value="{userInfo.name}" />
+                    </div>
+                    <div class="space-y-1">
+                        <Label for="firstName">First Name</Label>
+                        <Input id="firstName" value="{userInfo.firstName}" />
+                    </div>
+                </Card.Content>
+                <Card.Footer>
+                    <Button type="submit">Save changes</Button>
+                </Card.Footer>
+            </form>
         </Card.Root>
     </Tabs.Content>
     <Tabs.Content value="password">
@@ -42,19 +75,21 @@
                     Change your password here. After saving, you'll be logged out.
                 </Card.Description>
             </Card.Header>
-            <Card.Content class="space-y-2">
-                <div class="space-y-1">
-                    <Label for="current">Current password</Label>
-                    <Input id="current" type="password" />
-                </div>
-                <div class="space-y-1">
-                    <Label for="new">New password</Label>
-                    <Input id="new" type="password" />
-                </div>
-            </Card.Content>
-            <Card.Footer>
-                <Button>Save password</Button>
-            </Card.Footer>
+            <form action="" on:submit={handleModifyPassword}>
+                <Card.Content class="space-y-2">
+                    <div class="space-y-1">
+                        <Label for="current">Current password</Label>
+                        <Input id="current" type="password" />
+                    </div>
+                    <div class="space-y-1">
+                        <Label for="new">New password</Label>
+                        <Input id="new" type="password" />
+                    </div>
+                </Card.Content>
+                <Card.Footer>
+                    <Button>Save password</Button>
+                </Card.Footer>
+            </form>
         </Card.Root>
     </Tabs.Content>
 </Tabs.Root>
