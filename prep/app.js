@@ -4,12 +4,14 @@ const cors = require('cors');
 const app = express();
 // Link to DB connection
 const db = require('./db.js');
+const cookieParser = require('cookie-parser');
 
 app.use(cors({
     credentials: true,
     origin: true
 })); // allow all origins
-app.use(express.json()); 
+app.use(express.json());
+app.use(cookieParser());
 
 // Link to routes files
 const peopleRoutes = require('./routes/peopleRoutes.js');

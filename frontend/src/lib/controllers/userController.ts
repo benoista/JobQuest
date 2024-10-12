@@ -133,6 +133,7 @@ export async function updateUser(id: number, firstName: string, name: string, em
     }
 }
 
+// @ts-ignore
 export async function getAllUsers(): Promise<User[]> {
     try {
         const res = await fetch('http://localhost:3000/people', {
@@ -185,7 +186,10 @@ export async function getUserInfoWithToken(){
             }
         }
         else {
-            return await res.json(); // return the user's profile data
+             // return the user's profile data
+            let data =  await res.json();
+            let user: User = JSON.parse(JSON.stringify(data[0]));
+            return user;
         }
 
     } catch (error) {

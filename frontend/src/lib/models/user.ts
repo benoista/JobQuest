@@ -1,9 +1,10 @@
 export type User = {
     id: number,
     name: string,
-    firstName: string,
+    firstname: string,
     email: string,
-    isAdmin: boolean,
-    isUser: boolean,
+    is_admin: boolean,
+    is_user: boolean,
+    password: string,
 }
 
