@@ -5,6 +5,7 @@
     import {getContext} from "svelte";
     import {Button} from "$lib/shadcncomponents/ui/button/index.js";
     import type {User} from "$lib/models/user";
+    import LogoutButton from "$lib/components/buttons/LogoutButton.svelte";
 
 
      const  aa :  User = {
@@ -46,12 +47,12 @@
                 <Button> <a href="/login">Sign in</a> </Button>
                 <Button> <a href="/signup">Sign up</a> </Button>
                 <DarkMode></DarkMode>
-                <Button on:click={() => $state.userState = {aa}}>Admingee</Button>
+                <Button on:click={() => $state.userState = aa}>Admingee</Button>
             </div>
         {:else}
             <div class="flex gap-3">
                 <a href="profile">Profile</a>
-                <a href="logout">Logout</a>
+                <LogoutButton></LogoutButton>
                 <DarkMode></DarkMode>
             </div>
         {/if}

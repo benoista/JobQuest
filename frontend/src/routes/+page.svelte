@@ -7,7 +7,7 @@
     import SearchJobsForm from "$lib/components/forms/SearchJobsForm.svelte";
     import Header from "$lib/components/Header.svelte";
     import {writable} from "svelte/store";
-    import type {FullAdvert} from "$lib/models/full-advert.js";
+    import type {FullAdvert} from "$lib/models/full-advert";
     import {getContext, setContext} from "svelte";
 
     // export const adverts : Advert[] = mockAdverts;
