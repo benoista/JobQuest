@@ -5,7 +5,7 @@ const router = express.Router();
 const db = require('../db.js');
 //JWT
 const jwt = require('jsonwebtoken');
-const {getUserId} = require("../auth");
+const {getUserId, authorizeAdmin} = require("../auth");
 
 //Get .env
 require('dotenv').config()
@@ -59,6 +59,15 @@ router.get('/me', (req, res) => {
         }
         res.json(results);
     });
+});
+
+router.get('/isadmin', (req, res) => {
+    if (authorizeAdmin(req)){
+        res.status(200).send("You are an admin");
+    }
+    else {
+        res.status(401).send("You are not an admin");
+    }
 });
 
 

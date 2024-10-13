@@ -6,14 +6,18 @@ function decodeToken(token){
     return jwt.decode(token, secretKey);
 }
 
-function isAdmin(token){
+function isUserAdmin(token){
     const decoded = decodeToken(token);
-    return decoded.isAdmin === true;
+    console.log(decoded);
+    return decoded.isAdmin;
 }
 
-function isUser(token){
-    const decoded = decodeToken(token);
-    return decoded.isAdmin === false;
+function authorizeAdmin(req) {
+    const token = req.cookies["token"];
+    if (token === "" || token === undefined){
+        return false;
+    }
+    return isUserAdmin(token);
 }
 
 function getUserId(token){
@@ -21,4 +25,4 @@ function getUserId(token){
     return decoded.userId;
 }
 
-module.exports = {isAdmin, isUser, getUserId};
+module.exports = {getUserId, authorizeAdmin};

@@ -186,4 +186,5 @@ export async function getAllCompanies():Promise<Company[]>{
     } catch (error) {
         console.error('Error:', error);
     }
+    return [];
 }
