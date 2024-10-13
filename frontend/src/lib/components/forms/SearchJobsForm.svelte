@@ -9,7 +9,7 @@
 
     const advertsStore = getContext('adverts');
     let sectorsArray = [];
-    const sectors = getSectors().then((s) => sectorsArray = s);
+    getSectors().then((s) => sectorsArray = s);
     function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
         getAdvertisements(event).then((adverts) => {

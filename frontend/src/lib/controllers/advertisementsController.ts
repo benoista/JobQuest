@@ -1,4 +1,4 @@
-import type {FullAdvert} from "$lib/models/full-advert";
+
 import type {Advertisement} from "$lib/models/advertisement";
 
 
@@ -17,7 +17,7 @@ export async function getAllAdvertisements() {
                     console.log('An error occurred');
             }
         }
-        const json: FullAdvert[] =  await res.json();
+        const json: Advertisement[] =  await res.json();
         return json;
     } catch (error) {
         console.error('Error:', error);
@@ -54,7 +54,7 @@ export async function getAdvertisements(event: FormDataEvent) {
                     console.log('An error occurred');
             }
         }
-        const json: FullAdvert[] =  await res.json();
+        const json: Advertisement[] =  await res.json();
         return json;
     } catch (error) {
         console.error('Error:', error);
