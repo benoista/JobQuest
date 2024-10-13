@@ -20,6 +20,7 @@ function authorizeAdmin(req) {
     return isUserAdmin(token);
 }
 
+
 function getUserId(token){
     const decoded = decodeToken(token);
     return decoded.userId;

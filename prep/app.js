@@ -18,11 +18,13 @@ const peopleRoutes = require('./routes/peopleRoutes.js');
 const companiesRoutes = require('./routes/companiesRoutes.js');
 const advertisementsRoutes = require('./routes/advertisementsRoutes.js');
 const sectorRoutes = require('./routes/sectorRoutes.js');
+const applicationRoutes = require('./routes/applicationRoutes.js');
 
 app.use('/people', peopleRoutes);
 app.use('/advertisements', advertisementsRoutes);
 app.use('/companies', companiesRoutes);
 app.use('/sector', sectorRoutes);
+app.use('/application', applicationRoutes);
 
 // Listening port
 const PORT = 3000;
