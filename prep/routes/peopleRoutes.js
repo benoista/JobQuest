@@ -20,7 +20,6 @@ const secretKey = process.env.DB_HOST;
 //Select ALL
 router.get('/', (req, res) => { 
     const id = req.query.id;
-    const token = req.headers.authorization;
 
     if (id){
         const query = 'SELECT * FROM people WHERE id = (?)';

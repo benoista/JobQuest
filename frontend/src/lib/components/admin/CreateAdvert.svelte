@@ -12,14 +12,7 @@
      * Property of the form, set the form fields if an advert is passed else set the default values
      * @type {Advertisement}
      */
-    export let advert: Advertisement ={
-        title: "",
-        company: "",
-        contractType: ContractType.none,
-        salary: 0,
-        localization: "",
-        smallDescription: ""
-    };
+    export let advert: Advertisement;
 
     /**
      * TODO send a Post request to publish the advert
