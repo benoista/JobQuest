@@ -11,10 +11,10 @@
      const  aa :  User = {
         id: 1,
         name: "Admingee",
-        firstName: "Admingee",
+        firstname: "Admingee",
         email: "    ",
-        isAdmin: true,
-        isUser: false,
+        is_admin: true,
+        is_user: false,
      }
 
     let width = 0;

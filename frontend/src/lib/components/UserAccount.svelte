@@ -12,7 +12,15 @@
 
 
 
-    export let userInfo: User;
+    export let userInfo: User = {
+        id: 0,
+        name: "",
+        firstname: "",
+        email: "",
+        is_admin: false,
+        is_user: false,
+        password: ""
+    };
 
     // TODO implement this function
     async function handleModifyAccount(event: SubmitEvent) {
@@ -20,9 +28,9 @@
         console.log("Account modified");
         const formData = new FormData(event.target);
         let name = formData.get("name") as string;
-        let firstName = formData.get("firstName") as string;
+        let firstname = formData.get("firstName") as string;
         //  try to update user in the database
-        if (await updateUser(userInfo.id, firstName, name , userInfo.email) == true){
+        if (await updateUser(userInfo.id, firstname, name , userInfo.email) == true){
             console.log("User updated");
         } else {
             console.log("User not updated");
@@ -58,7 +66,7 @@
                     </div>
                     <div class="space-y-1">
                         <Label for="firstName">First Name</Label>
-                        <Input id="firstName" value="{userInfo.firstName}" />
+                        <Input id="firstName" value="{userInfo.firstname}" />
                     </div>
                 </Card.Content>
                 <Card.Footer>

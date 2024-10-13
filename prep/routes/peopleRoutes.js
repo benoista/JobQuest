@@ -5,6 +5,8 @@ const router = express.Router();
 const db = require('../db.js');
 //JWT
 const jwt = require('jsonwebtoken');
+const {getUserId, authorizeAdmin} = require("../auth");
+
 //Get .env
 require('dotenv').config()
 //HashPassword
@@ -18,6 +20,7 @@ const secretKey = process.env.DB_HOST;
 //Select ALL
 router.get('/', (req, res) => { 
     const id = req.query.id;
+    const token = req.headers.authorization;
 
     if (id){
         const query = 'SELECT * FROM people WHERE id = (?)';
@@ -40,6 +43,33 @@ router.get('/', (req, res) => {
         });
     }
 });
+
+
+router.get('/me', (req, res) => {
+    const token = req.cookies["token"];
+    if (token === "" || token === undefined){return res.status(401).send("Unauthorized")}
+
+    const id = getUserId(token);
+    const query = 'SELECT * FROM people WHERE id = (?)';
+    const values = [id];
+
+    db.query(query, values, (err, results) => {
+        if (err) {
+            return res.status(500).send('Data recovery error');
+        }
+        res.json(results);
+    });
+});
+
+router.get('/isadmin', (req, res) => {
+    if (authorizeAdmin(req)){
+        res.status(200).send("You are an admin");
+    }
+    else {
+        res.status(401).send("You are not an admin");
+    }
+});
+
 
 //Add new person 
 router.post('/add', (req, res) => {
