@@ -93,10 +93,10 @@ export async function deleteUser(id: number){
     }
 }
 
-export async function updateUser(id: number, firstName: string, name: string, email: string): Promise<boolean>{
+export async function updateUser(id: number, firstname: string, name: string, email: string): Promise<boolean>{
     const body = {
-        firstName: firstName,
         name: name,
+        firstname: firstname,
         email: email
     }
     try {

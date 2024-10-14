@@ -73,6 +73,7 @@ router.post('/add', (req, res) => {
         }
 
         const {companyiD, sectoriD} = results[0];
+        console.log("companyID: ", companyiD , "sectorID", sectoriD);
         if (!companyiD || !sectoriD) {
             return res.status(400).send('Invalid foreing key.');
         }
@@ -83,7 +84,7 @@ router.post('/add', (req, res) => {
 
         db.query(insertQuery, insertValues, (err, results) => {
             if (err) {
-
+                console.log("error on insert advertisement : " + err);
                 return res.status(500).send('Error when adding data:');
             }
             res.status(200).send(true);
@@ -141,30 +142,32 @@ router.put('/update', (req, res) => {
     const id = req.query.id;
     const {title, short_description, description, company, localization, salary, contract_type, date, working_time, sector} = req.body;
 
-    console.log(id)
-    console.log (title, short_description, description, company, localization, salary, contract_type, date, working_time, sector)
     //Check if foreginKey exist
     const checkForeignKeys = `
         SELECT 
             (SELECT id FROM companies WHERE name = ?) AS companyiD,
             (SELECT id FROM sector WHERE name = ?) AS sectoriD`;
     const checkValues = [company, sector];
+    console.log(checkValues);
     db.query(checkForeignKeys, checkValues, (err, results) => {
         if (err) {
             return res.status(500).send('Error foreing key:');
         }
 
         const {companyiD, sectoriD} = results[0];
+        console.log("companyID: ", companyiD , "sectorID: ", sectoriD);
+
         if (!companyiD || !sectoriD) {
             return res.status(400).send('Invalid foreing key.');
         }
 
         const updateQuery = `
-            UPDATE advertisements SET title = ?, short_description = ?, description = ?, company = ?, localization = ?, salary = ?, contract_type = ?, date = ?, working_time = ?, id_sector= ? WHERE id = ?`;
-        const insertValues = [title, short_description, description, companyiD, localization, salary, contract_type, date, working_time, sectoriD, id];
+            UPDATE advertisements SET title = ?, short_description = ?, description = ?, company = ?, localization = ?, salary = ?, contract_type = ?, working_time = ?, id_sector= ? WHERE id = ?`;
+        const insertValues = [title, short_description, description, companyiD, localization, salary, contract_type, working_time, sectoriD, id];
 
         db.query(updateQuery, insertValues, (err, results) => {
             if (err) {
+                console.log("error : " + err);
                 return res.status(500).send('Error when adding data:');
             }
             res.status(200).send(true);

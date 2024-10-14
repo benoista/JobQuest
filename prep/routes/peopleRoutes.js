@@ -158,21 +158,24 @@ router.delete('/remove', (req, res) => {
 //Select Update 1
 router.put('/update', (req, res) => {
     const id = req.query.id;
-    const name = req.query.name;
-    const firstname = req.query.firstname;
-    const email = req.query.email;
-    const password = req.query.password;
+    if (!id) {
+        return res.status(400).send('ID is needed');
+    }
 
+    const { name, firstname, email, password} = req.body;
+    let query = "";
+    let values = [];
     if (!password){
-        const query = 'UPDATE people SET name = ?, firstname = ?, email = ? WHERE id = ?';
-        const values = [name, firstname, email, id];
-    }else {
-        const query = 'UPDATE people SET name = ?, firstname = ?, email = ?, password = ? WHERE id = ?';
-        const values = [name, firstname, email, password, id];
+         query = 'UPDATE people SET name = ?, firstname = ?, email = ? WHERE id = ?';
+         values = [name, firstname, email, id];
+    } else {
+         query = 'UPDATE people SET name = ?, firstname = ?, email = ?, password = ? WHERE id = ?';
+         values = [name, firstname, email, password, id];
     }
 
     db.query(query, values, (err, results) => {
         if (err) {
+            console.log(err);
             return res.status(500).send('Error when updating data');
         }
         res.status(200).send(true);

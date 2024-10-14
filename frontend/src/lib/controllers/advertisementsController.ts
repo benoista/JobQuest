@@ -62,11 +62,10 @@ export async function getAdvertisements(event: FormDataEvent) {
     }
 }
 
-
-async function addAdvertisement(ad : Advertisement){
+export async function addAdvertisement(ad : Advertisement){
 
     try {
-        const res = await fetch('http://localhost:3000/advertisements', {
+        const res = await fetch('http://localhost:3000/advertisements/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,8 +95,7 @@ async function addAdvertisement(ad : Advertisement){
     }
 }
 
-async function deleteAdvertisement(id : number){
-
+export async function deleteAdvertisement(id : number){
     try {
         const res = await fetch('http://localhost:3000/advertisements/remove?id=' + id, {
             method: 'DELETE',
@@ -153,7 +151,7 @@ export async function getAdvertisementDescription(id : number) {
     }
 }
 
-export async function updateAdvertisement(id: number, ad){
+export async function updateAdvertisement(id: number, ad: Advertisement){
 
     const body = {
         title: ad.title,

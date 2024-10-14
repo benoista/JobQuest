@@ -7,9 +7,14 @@
     import type {Application} from "$lib/models/applications";
     import type {Sector} from "$lib/models/sector";
     import type {Advertisement} from "$lib/models/advertisement";
-    import {writable} from "svelte/store";
-    import {getAllAdvertisements, updateAdvertisement} from "$lib/controllers/advertisementsController";
-    import {createUser, getAllUsers} from "$lib/controllers/userController";
+    import {type Writable, writable} from "svelte/store";
+    import {
+        addAdvertisement,
+        deleteAdvertisement,
+        getAllAdvertisements,
+        updateAdvertisement
+    } from "$lib/controllers/advertisementsController";
+    import {createUser, getAllUsers, updateUser} from "$lib/controllers/userController";
     import {createCompany, getAllCompanies} from "$lib/controllers/companiesController";
     import {createSector, getAllSectors} from "$lib/controllers/sectorController";
     import {adminCreateApplication, getAllApplications} from "$lib/controllers/applicationController";
@@ -17,13 +22,35 @@
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {Label} from "$lib/shadcncomponents/ui/label";
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";
+    import {onMount} from "svelte";
+    import {deleteUser} from "$lib/controllers/userController.js";
 
-    export let users : User[] = [];
-    export let companies: Company[] = [];
-    export let applications: Application[] = [];
-    export let sectors: Sector[] = [];
-    export let advertisements: Advertisement[] = [];
+     let users : Writable<User[]> = writable([]);
+     let companies: Writable<Company[]> = writable([]);
+     let applications: Writable<Application[]> = writable([]);
+     let sectors: Writable<Sector[]> = writable([]);
+     let advertisements: Writable<Advertisement[]> = writable([]);
 
+    onMount(async () => {
+
+        getAllAdvertisements().then((data) => {
+            $advertisements = data ?? [];
+        });
+        getAllUsers().then((data) => {
+            $users = data ?? [];
+        });
+        getAllCompanies().then((data) => {
+            $companies = data ?? [];
+        });
+        getAllApplications().then((data) => {
+            $applications = data ?? [];
+        });
+        getAllSectors().then((data) => {
+            $sectors = data ?? [];
+        });
+    });
+
+/*
     let selectedTab = writable("advertisements");
     $: switch ($selectedTab) {
         case "advertisements":
@@ -54,21 +81,46 @@
                 sectors = data ?? [];
             });
             break;
-    }
+    }*/
 
+
+    function handleCreateAdvertisement(event: SubmitEvent){
+        let formData = new FormData(event.target);
+        let ad: Advertisement = {
+            id: 0,
+            title: formData.get("title") as string,
+            description: formData.get("description") as string,
+            localization: formData.get("localization") as string,
+            salary: formData.get("salary") as number,
+            contract_type: formData.get("contract") as string,
+            date: formData.get("date") as Date,
+            short_description: formData.get("short") as string,
+            sector: formData.get("sector") as string,
+            company: formData.get("company") as string,
+            working_time: formData.get("working_time") as number,
+        }
+        console.log("Advert created: ", JSON.stringify(ad));
+        addAdvertisement(ad);
+        getAllAdvertisements().then((data) => {
+            $advertisements = data ?? [];
+        });
+    }
 
     async function handleCreateSector(event: SubmitEvent) {
         let formData = new FormData(event.target);
         let name = formData.get("name") as string;
         await createSector(name);
+        getAllSectors().then((data) => {
+            $sectors = data ?? [];
+        });
     }
     async function handleCreateCompany(event: SubmitEvent) {
         let formData = new FormData(event.target);
         let name = formData.get("name") as string;
         let website = formData.get("website") as string;
         await createCompany(name, website);
+        $companies = await getAllCompanies();
     }
-
 
     async function handleCreateApplication(event: SubmitEvent) {
         let formData = new FormData(event.target);
@@ -86,7 +138,7 @@
         await createUser(name, firstname, email);
     }
 
-     function handleUpdateAdvert(id:number){
+    function handleUpdateAdvert(id:number){
         let title = document.getElementById(`${id}-title`)?.textContent;
         let description = document.getElementById(`${id}-description`)?.textContent;
         let localization = document.getElementById(`${id}-localization`)?.textContent;
@@ -98,7 +150,7 @@
         let company = document.getElementById(`${id}-company`)?.textContent;
         let working_time = document.getElementById(`${id}-working`)?.textContent;
         console.log(title, description, localization, salary, contract, date, short, sector, company);
-        let advert = {
+        let advert:Advertisement = {
             id: id,
             title: title,
             description: description,
@@ -107,11 +159,32 @@
             contract_type: contract,
             date: date,
             short_description: short,
-            id_sector: sector,
+            sector: sector,
             company: company,
             working_time: working_time,
         }
         updateAdvertisement(id, advert);
+    }
+
+    function handleDeleteAdvert(id:number){
+        deleteAdvertisement(id);
+    }
+
+    function handleUpdateUser(id:number){
+        let name = document.getElementById(`user${id}-name`)?.textContent;
+        let firstname = document.getElementById(`user${id}-firstname`)?.textContent;
+        let email = document.getElementById(`user${id}-email`)?.textContent;
+        updateUser(id, firstname, name, email);
+        getAllUsers().then((data) => {
+            $users = data ?? [];
+        });
+    }
+
+    function handleDeleteUser(id:number){
+        deleteUser(id);
+        getAllUsers().then((data) => {
+            $users = data ?? [];
+        });
     }
 
 </script>
@@ -128,7 +201,7 @@
 
 <div class="">
 
-    <Tabs.Root bind:value={$selectedTab} class="flex flex-col items-center justify-center">
+    <Tabs.Root class="flex flex-col items-center justify-center">
 
         <Tabs.List>
             <Tabs.Trigger value="advertisements">Advertisements</Tabs.Trigger>
@@ -142,8 +215,33 @@
         <!-- ADVERTISEMENTS PAGE Display advertisements and the possibility to create/update/delete any advertisement -->
         <Tabs.Content value="advertisements">
 
-            <Button>Create</Button>
-
+            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateAdvertisement}>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem ">
+                    <Input type="text" placeholder="Title" name="title"></Input>
+                    <Input type="text" placeholder="short_description" name="short"></Input>
+                    <Input type="text" placeholder="description" name="description"></Input>
+                    <Input type="number" placeholder="salary" name="salary"></Input>
+                    <Input type="date" placeholder="date" name="date"></Input>
+                    <Input type="number" placeholder="working_time" name="working_time"></Input>
+                    <Input type="text" placeholder="localization" name="localization"></Input>
+                    <select name="sector">
+                        {#each $sectors as sector }
+                            <option value="{sector.name}">{sector.name}</option>
+                        {/each}
+                    </select>
+                    <select name="company">
+                        {#each $companies as company }
+                            <option value="{company.name}">{company.name}</option>
+                        {/each}
+                    </select>
+                    <select name="contract">
+                        {#each ["CDI", "CDD", "Stage", "Alternance"] as contract }
+                            <option value="{contract}">{contract}</option>
+                        {/each}
+                    </select>
+                </div>
+                <Button type="submit">Create</Button>
+            </form>
 
             <Table.Root>
                 <Table.Caption>Applications list</Table.Caption>
@@ -161,27 +259,25 @@
                         <Table.Head class="text-center">short_description</Table.Head>
                         <Table.Head class="text-center">working_time</Table.Head>
                         <Table.Head class="text-center">Actions</Table.Head>
-
-
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {#each advertisements as advert}
+                    {#each $advertisements as advert}
                         <Table.Row>
                             <Table.Cell class="text-center" id="{advert.id}-id">{advert.id}</Table.Cell>
-                            <Table.Cell class="text-center" id="{advert.id}-title">{advert.title}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-title">{advert.title}</Table.Cell>
                             <Table.Cell class="text-center" id="{advert.id}-company">{advert.company}</Table.Cell>
                             <Table.Cell class="text-center" id="{advert.id}-sector">{advert.sector}</Table.Cell>
                             <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-description">{advert.description}</Table.Cell>
-                            <Table.Cell class="text-center" id="{advert.id}-localization">{advert.localization}</Table.Cell>
-                            <Table.Cell class="text-center" id="{advert.id}-salary">{advert.salary}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-localization">{advert.localization}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-salary">{advert.salary}</Table.Cell>
                             <Table.Cell class="text-center" id="{advert.id}-contract">{advert.contract_type}</Table.Cell>
                             <Table.Cell class="text-center" id="{advert.id}-date">{advert.date}</Table.Cell>
-                            <Table.Cell class="text-center" id="{advert.id}-short">{advert.short_description}</Table.Cell>
-                            <Table.Cell class="text-center" id="{advert.id}-working">{advert.working_time}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-short">{advert.short_description}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="{advert.id}-working">{advert.working_time}</Table.Cell>
                             <Table.Cell class="text-center">
-                                <Button variant="ghost" on:click={handleUpdateAdvert(advert.id)}>Update</Button>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="apply" on:click={ () => handleUpdateAdvert(advert.id) }>Update</Button>
+                                <Button variant="destructive" on:click={ () => handleDeleteAdvert(advert.id) }>Delete</Button>
                             </Table.Cell>
                         </Table.Row>
                     {/each}
@@ -221,17 +317,17 @@
                 </Table.Header>
                 <Table.Body>
 
-                    {#each users as user}
+                    {#each $users as user}
                     <Table.Row>
                         <Table.Cell class="text-center">{user.id}</Table.Cell>
-                        <Table.Cell class="text-center">{user.name}</Table.Cell>
-                        <Table.Cell class="text-center">{user.firstname}</Table.Cell>
-                        <Table.Cell class="text-center">{user.email}</Table.Cell>
-                        <Table.Cell class="text-center">{user.is_admin}</Table.Cell>
-                        <Table.Cell class="text-center">{user.is_user}</Table.Cell>
+                        <Table.Cell contenteditable="true" class="text-center" id="user{user.id}-name">{user.name}</Table.Cell>
+                        <Table.Cell contenteditable="true" class="text-center" id="user{user.id}-firstname">{user.firstname}</Table.Cell>
+                        <Table.Cell contenteditable="true" class="text-center" id="user{user.id}-email">{user.email}</Table.Cell>
+                        <Table.Cell class="text-center" id="user{user.id}-is_admin">{user.is_admin}</Table.Cell>
+                        <Table.Cell class="text-center" id="user{user.id}-is_user">{user.is_user}</Table.Cell>
                         <Table.Cell class="text-center">
-                            <button class="btn btn-primary">Update</button>
-                            <button class="btn btn-danger">Delete</button>
+                            <Button variant="apply" on:click={() => handleUpdateUser(user.id)}>Update</Button>
+                            <Button variant="destructive" on:click={() => handleDeleteUser(user.id)}>Delete</Button>
                         </Table.Cell>
                     </Table.Row>
                     {/each}
@@ -255,14 +351,19 @@
                         <Table.Head class="text-center">ID</Table.Head>
                         <Table.Head class="text-center">Name</Table.Head>
                         <Table.Head class="text-center">Website</Table.Head>
+                        <Table.Head class="text-center">Actions</Table.Head>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {#each companies as company}
+                    {#each $companies as company}
                         <Table.Row>
                             <Table.Cell class="text-center">{company.id}</Table.Cell>
                             <Table.Cell class="text-center">{company.name}</Table.Cell>
                             <Table.Cell class="text-center">{company.website}</Table.Cell>
+                            <Table.Cell class="text-center">
+                                <Button variant="apply">Update</Button>
+                                <Button variant="destructive">Delete</Button>
+                            </Table.Cell>
                         </Table.Row>
                     {/each}
                 </Table.Body>
@@ -287,14 +388,19 @@
                         <Table.Head class="text-center">Id Advert</Table.Head>
                         <Table.Head class="text-center">Id User</Table.Head>
                         <Table.Head class="text-center">Message sent</Table.Head>
+                        <Table.Head class="text-center">Actions</Table.Head>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {#each applications as application}
+                    {#each $applications as application}
                         <Table.Row>
                             <Table.Cell class="text-center">{application.id_ads}</Table.Cell>
                             <Table.Cell class="text-center">{application.id_people}</Table.Cell>
                             <Table.Cell class="text-center">{application.message}</Table.Cell>
+                            <Table.Cell class="text-center">
+                                <Button variant="apply">Update</Button>
+                                <Button variant="destructive">Delete</Button>
+                            </Table.Cell>
                         </Table.Row>
                     {/each}
                 </Table.Body>
@@ -314,13 +420,18 @@
                     <Table.Row class="text-center">
                         <Table.Head class="text-center">Id</Table.Head>
                         <Table.Head class="text-center">Name</Table.Head>
+                        <Table.Head class="text-center">Actions</Table.Head>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {#each sectors as sector}
+                    {#each $sectors as sector}
                         <Table.Row>
                             <Table.Cell class="text-center">{sector.id}</Table.Cell>
                             <Table.Cell class="text-center">{sector.name}</Table.Cell>
+                            <Table.Cell class="text-center">
+                                <Button variant="apply">Update</Button>
+                                <Button variant="destructive">Delete</Button>
+                            </Table.Cell>
                         </Table.Row>
                     {/each}
                 </Table.Body>
