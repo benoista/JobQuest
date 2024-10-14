@@ -90,8 +90,8 @@
                         <Table.Head class="text-center">Name</Table.Head>
                         <Table.Head class="text-center">Firstname</Table.Head>
                         <Table.Head class="text-center">Email</Table.Head>
-                        <Table.Head class="text-center">isAdmin</Table.Head>
-                        <Table.Head class="text-center">isUser</Table.Head>
+                        <Table.Head class="text-center">is_admin</Table.Head>
+                        <Table.Head class="text-center">is_user</Table.Head>
 
                     </Table.Row>
                 </Table.Header>
@@ -100,10 +100,10 @@
                     <Table.Row>
                         <Table.Cell class="text-center">{user.id}</Table.Cell>
                         <Table.Cell class="text-center">{user.name}</Table.Cell>
-                        <Table.Cell class="text-center">{user.firstName}</Table.Cell>
+                        <Table.Cell class="text-center">{user.firstname}</Table.Cell>
                         <Table.Cell class="text-center">{user.email}</Table.Cell>
-                        <Table.Cell class="text-center">{user.isAdmin}</Table.Cell>
-                        <Table.Cell class="text-center">{user.isUser}</Table.Cell>
+                        <Table.Cell class="text-center">{user.is_admin}</Table.Cell>
+                        <Table.Cell class="text-center">{user.is_user}</Table.Cell>
                     </Table.Row>
                     {/each}
                 </Table.Body>

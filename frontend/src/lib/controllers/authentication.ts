@@ -76,7 +76,7 @@ export async function handleSignUp(event: FormDataEvent){
  * @param event
  */
 
-    export async function handleSignIn(event: FormDataEvent) {
+export async function handleSignIn(event: FormDataEvent) {
         event.preventDefault();
         const formData = new FormData(event.target as HTMLFormElement);
 
@@ -123,7 +123,33 @@ export async function handleSignUp(event: FormDataEvent){
  * @returns void
  */
 function handleSignOut() {
-    fetch('http://localhost:3000/signout', {
-        method: 'POST',
-    });
+
+}
+
+export async function isAdmin(): Promise<boolean>{
+    try {
+        const res = await fetch('http://localhost:3000/people/isadmin', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    return false;
+                default:
+                    alert('An unexpected error occurred');
+            }
+        } else {
+            const json = res.json();
+            console.log(json);
+            return true;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+    return false;
 }

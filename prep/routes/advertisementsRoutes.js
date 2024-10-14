@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
     } else {
         joinClause = joins.join('');
     }
-    const sqlQuery = `SELECT title, short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, localization, salary, contract_type, date, working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${joinClause} ${whereClause}`;
+    const sqlQuery = `SELECT id, title, short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, localization, salary, contract_type, date, working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${joinClause} ${whereClause}`;
     db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
     if (err) {
         return res.status(500).send(err);
@@ -123,7 +123,7 @@ router.delete('/remove', (req, res) => {
 
 router.get('/description', (req, res) => { 
     const id = req.query.id;
-
+    console.log("received request for description with id: ", id);
     if (!id){
         return res.status(400).send('ID is needed');
     } else{

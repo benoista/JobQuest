@@ -8,18 +8,21 @@
     import { Label } from "$lib/shadcncomponents/ui/label/index.js";
     import type {User} from "$lib/models/user";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
+    import {getAdvertisementDescription} from "$lib/controllers/advertisementsController";
+    import {writable} from "svelte/store";
 
-    /**
-     * TODO - Fetch the full data and displays it in the Dialog
-     */
-    function handleClick() {
-        console.log("clicked");
+    export let id: number;
+
+    let description = writable("");
+    async function handleClick() {
+        let res = await getAdvertisementDescription(id) ?? "";
+        $description = res[0]["description"];
     }
 
 </script>
 
 <Dialog.Root>
-    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}> Learn More </Dialog.Trigger>
+    <Dialog.Trigger class={buttonVariants({ variant: "outline" })} on:click={handleClick}> Learn More </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header>
             <Dialog.Title></Dialog.Title>
@@ -27,7 +30,7 @@
             </Dialog.Description>
         </Dialog.Header>
 
-        fullCARD
+        {$description}
 
         <Dialog.Footer>
             <ApplyButton></ApplyButton>

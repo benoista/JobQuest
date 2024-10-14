@@ -13,6 +13,9 @@
     import Location from "$lib/components/icons/Location.svelte";
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {handleSignUp} from "$lib/controllers/authentication";
+    import * as env from "$app/stores";
+
+
 
     let width = 0;
     if (browser) {
@@ -25,9 +28,6 @@
             width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
         });
     }
-
-
-
 </script>
 
 {#if (width >= 1024)}

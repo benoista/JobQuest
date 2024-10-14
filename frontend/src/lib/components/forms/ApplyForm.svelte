@@ -5,13 +5,17 @@ import {Textarea} from "$lib/shadcncomponents/ui/textarea/index";
 
 
 
-export let userInfo;
+export let userInfo = {
+    name: "",
+    firstName: "",
+    email: "",
+};
 
 function handleSubmit(e: Event) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    alert("TODO : send data to the backend");
 }
 </script>
 <p class="text-xl ">Apply for the job : </p>
