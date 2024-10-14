@@ -8,7 +8,6 @@ const db = require('../db.js');
 //Select ALL
 router.get('/', (req, res) => {
 
-    console.log(req.query);
     const id = req.query.id;
     const title = req.query.title;
     const companies = req.query.company;
@@ -21,15 +20,15 @@ router.get('/', (req, res) => {
     const values = [];
     const joins = [];
 
-    if (id) {values.push(`id = '${id}'`);}
-    if (title) {values.push(`title LIKE '%${title}%'`);}
+    if (id) {values.push(`advertisements.id = '${id}'`);}
+    if (title) {values.push(`advertisements.title LIKE '%${title}%'`);}
     if (companies) {
-        values.push(`company = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
+        values.push(`advertisements.company = (SELECT id FROM companies WHERE companies.name = '${companies}')`);
     }
-    if (localization) {values.push(`localization = '${localization}'`);}
-    if (salary) {values.push(`salary >= '${salary}'`);}
-    if (contract_type) {values.push(`contract_type = '${contract_type}'`);}
-    if (date) {values.push(`date = '${date}'`);}
+    if (localization) {values.push(`advertisements.localization = '${localization}'`);}
+    if (salary) {values.push(`advertisements.salary >= '${salary}'`);}
+    if (contract_type) {values.push(`advertisements.contract_type = '${contract_type}'`);}
+    if (date) {values.push(`advertisements.date = '${date}'`);}
     if (sector) {
         values.push(`sector.id = ${sector}`);
         joins.push('JOIN sector on sector.id = id_sector');
@@ -48,7 +47,7 @@ router.get('/', (req, res) => {
     } else {
         joinClause = joins.join('');
     }
-    const sqlQuery = `SELECT id, title, short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, localization, salary, contract_type, date, working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${joinClause} ${whereClause}`;
+    const sqlQuery = `SELECT advertisements.id, advertisements.title, advertisements.short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, advertisements.localization, advertisements.salary, advertisements.contract_type, advertisements.date, advertisements.working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${joinClause} ${whereClause}`;
     db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
     if (err) {
         return res.status(500).send(err);
