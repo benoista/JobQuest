@@ -32,7 +32,7 @@ export async function getUserById(id: number){
 
 export async function createUser(firstName: string, name: string, email: string){
     const body = {
-        firstName: firstName,
+        firstname: firstName,
         name: name,
         email: email
     }

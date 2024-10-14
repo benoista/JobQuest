@@ -8,6 +8,6 @@ export type Advertisement = {
     contract_type: string;
     date: Date;
     description: string;
-    id_sector: number;
+    sector: string;
     working_time: number;
 }

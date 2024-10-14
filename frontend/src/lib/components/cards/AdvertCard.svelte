@@ -26,7 +26,7 @@
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
                     <div class="flex flex-row"><Location></Location> {smallAdvert.localization} </div>
                     <div class="flex flex-row"><Calendar></Calendar> {smallAdvert.date} </div>
-                    <div class="flex flex-row"><Sector></Sector> {smallAdvert.id_sector} </div>
+                    <div class="flex flex-row"><Sector></Sector> {smallAdvert.sector} </div>
                     <div class="flex flex-row"><Clock></Clock>{smallAdvert.working_time} </div>
                 </div>
             </div>

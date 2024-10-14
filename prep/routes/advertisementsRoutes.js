@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
     const contract_type = req.query.contract_type;
     const date = req.query.date;
     const sector = req.query.sector;
-
     const values = [];
     const joins = [];
 
@@ -47,7 +46,7 @@ router.get('/', (req, res) => {
     } else {
         joinClause = joins.join('');
     }
-    const sqlQuery = `SELECT advertisements.id, advertisements.title, advertisements.short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, advertisements.localization, advertisements.salary, advertisements.contract_type, advertisements.date, advertisements.working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS id_sector  FROM advertisements ${joinClause} ${whereClause}`;
+    const sqlQuery = `SELECT advertisements.id, advertisements.title, advertisements.short_description, (SELECT NAME FROM companies WHERE company = companies.id) AS company, advertisements.localization, advertisements.salary, advertisements.contract_type, advertisements.date, advertisements.working_time, (SELECT NAME FROM sector WHERE id_sector = sector.id) AS sector  FROM advertisements ${joinClause} ${whereClause}`;
     db.query(sqlQuery, [id, title, companies, localization, salary, contract_type, date, sector], (err, results) => {
     if (err) {
         return res.status(500).send(err);
@@ -138,5 +137,39 @@ router.get('/description', (req, res) => {
     }
 });
 
+router.put('/update', (req, res) => {
+    const id = req.query.id;
+    const {title, short_description, description, company, localization, salary, contract_type, date, working_time, sector} = req.body;
+
+    console.log(id)
+    console.log (title, short_description, description, company, localization, salary, contract_type, date, working_time, sector)
+    //Check if foreginKey exist
+    const checkForeignKeys = `
+        SELECT 
+            (SELECT id FROM companies WHERE name = ?) AS companyiD,
+            (SELECT id FROM sector WHERE name = ?) AS sectoriD`;
+    const checkValues = [company, sector];
+    db.query(checkForeignKeys, checkValues, (err, results) => {
+        if (err) {
+            return res.status(500).send('Error foreing key:');
+        }
+
+        const {companyiD, sectoriD} = results[0];
+        if (!companyiD || !sectoriD) {
+            return res.status(400).send('Invalid foreing key.');
+        }
+
+        const updateQuery = `
+            UPDATE advertisements SET title = ?, short_description = ?, description = ?, company = ?, localization = ?, salary = ?, contract_type = ?, date = ?, working_time = ?, id_sector= ? WHERE id = ?`;
+        const insertValues = [title, short_description, description, companyiD, localization, salary, contract_type, date, working_time, sectoriD, id];
+
+        db.query(updateQuery, insertValues, (err, results) => {
+            if (err) {
+                return res.status(500).send('Error when adding data:');
+            }
+            res.status(200).send(true);
+        });
+    });
+});
 
 module.exports = router;

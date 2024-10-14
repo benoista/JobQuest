@@ -18,6 +18,7 @@ export async function getAllAdvertisements() {
             }
         }
         const json: Advertisement[] =  await res.json();
+        console.log(JSON.stringify(json))
         return json;
     } catch (error) {
         console.error('Error:', error);
@@ -152,3 +153,47 @@ export async function getAdvertisementDescription(id : number) {
     }
 }
 
+export async function updateAdvertisement(id: number, ad){
+
+    const body = {
+        title: ad.title,
+        short_description: ad.short_description,
+        description: ad.description,
+        company: ad.company,
+        localization: ad.localization,
+        salary: ad.salary,
+        contract_type: ad.contract_type,
+        date: ad.date,
+        working_time: ad.working_time,
+        sector: ad.sector,
+    }
+
+    try {
+        const res = await fetch('http://localhost:3000/advertisements/update?id=' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ad),
+            credentials: 'include', // include JWT token in the request
+        });
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    console.log('Unauthorized');
+                    break;
+                case 404:
+                    console.log('Not found');
+                    break;
+                default:
+                    console.log('An error occurred');
+            }
+        }
+        else {
+            alert('Advertisement updated');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

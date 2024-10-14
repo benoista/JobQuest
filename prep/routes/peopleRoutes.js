@@ -73,11 +73,12 @@ router.get('/isadmin', (req, res) => {
 //Add new person 
 router.post('/add', (req, res) => {
     const { name, firstname, email} = req.body;
-    const query = 'INSERT INTO people (name, firstname, email) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO people (name, firstname, email, is_user, password) VALUES (?, ?, ?, 0, "")';
     const values = [name, firstname, email];
 
     db.query(query, values, (err, results) => {
         if (err) {
+            console.log(err)
             return res.status(500).send('Error during adding data:');
         }
         res.status(200).send(true); 
