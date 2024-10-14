@@ -35,7 +35,7 @@
 
 
 <Dialog.Root>
-    <Dialog.Trigger class={buttonVariants({ variant: "outline" })} on:click={handleClick}> Apply </Dialog.Trigger>
+    <Dialog.Trigger class={buttonVariants({ variant: "apply" })} on:click={handleClick}> Apply </Dialog.Trigger>
 
     <Dialog.Content class="w-full sm:w-full md:w-full lg:w-full max-w-[80%]">
         <ApplyForm userInfo="{ {name: $userInfos.name , firstName: $userInfos.firstname, email: $userInfos.email} }" ></ApplyForm>

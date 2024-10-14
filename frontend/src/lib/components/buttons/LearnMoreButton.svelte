@@ -7,6 +7,7 @@
     import { Input } from "$lib/shadcncomponents/ui/input/index.js";
     import { Label } from "$lib/shadcncomponents/ui/label/index.js";
     import type {User} from "$lib/models/user";
+    import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
     import {getAdvertisementDescription} from "$lib/controllers/advertisementsController";
     import {writable} from "svelte/store";
 
@@ -32,7 +33,7 @@
         {$description}
 
         <Dialog.Footer>
-            <Button type="submit"> Apply </Button>
+            <ApplyButton></ApplyButton>
         </Dialog.Footer>
     </Dialog.Content>
 </Dialog.Root>

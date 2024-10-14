@@ -13,33 +13,31 @@
     function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
         getAdvertisements(event).then((adverts) => {
-            $advertsStore = adverts
-            console.log(adverts);
+            $advertsStore = adverts;
         });
     }
 </script>
 <div class="mx-3">
-    <form action="" class="flex lg:flex-row gap-3 flex-col" on:submit={(e) => handleSubmit(e)}>
-        <Input type="text" name="title" id="title" placeholder="Title"> </Input>
-        <Input type="number" name="salary" id="salary" placeholder="Salary"> </Input>
-        <Input type="text" name="location" id="location" placeholder="Location"> </Input>
-        <Input type="text" name="company" id="company" placeholder="Company"> </Input>
-        <select name="contract_type" id="contract_type">
+    <form action="" class="flex lg:flex-row gap-3 flex-col m-4 p-3" on:submit={(e) => handleSubmit(e)}>
+        <Input type="text" name="title" id="title" placeholder="Title" class="bg-[#315659]/10 rounded"> </Input>
+        <Input type="number" name="salary" id="salary" placeholder="Salary" class="bg-[#315659]/10 rounded"> </Input>
+        <Input type="text" name="location" id="location" placeholder="Location" class="bg-[#315659]/10 rounded"> </Input>
+        <Input type="text" name="company" id="company" placeholder="Company" class="bg-[#315659]/10 rounded"> </Input>
+        <select name="contract_type" id="contract_type" class="border p-2 bg-[#315659]/10 rounded">
             <option value="">Select Contract Type</option>
             <option value="fixedTerm">fixed-term contract</option>
             <option value="permanent">permanent contract</option>
             <option value="internship">internship</option>
             <option value="freelance">freelance</option>
             <option value="other">other</option>
-
         </select>
 
-        <select name="sector" id="sector-select">
+        <select name="sector" id="sector-select" class="border p-2 bg-[#315659]/10 rounded">
             <option value="">Select sector</option>
             {#each sectorsArray as sector}
                 <option value="{sector['id']}">{sector["name"]}</option>
             {/each}
         </select>
-        <Button type="submit"> Submit </Button>
+        <button type="submit" class="bg-[#90BC81] text-black p-2 rounded"> Submit </button>
     </form>
 </div>

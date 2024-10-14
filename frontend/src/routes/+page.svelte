@@ -19,12 +19,12 @@
 <SearchJobsForm></SearchJobsForm>
 
 
-<div class="flex flex-col">
+<div class="flex flex-col bg-[#315659]/10">
     <div id="search-engine-container"></div>
     <div id="adverts-grid-container">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 m-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-2 p-2">
             {#each $adverts as advert}
-                <AdvertCard smallAdvert="{advert}" />
+                <AdvertCard smallAdvert="{advert}"/>
             {/each}
         </div>
     </div>
