@@ -2,8 +2,10 @@
 import {Input} from "$lib/shadcncomponents/ui/input/index";
 import {Button} from "$lib/shadcncomponents/ui/button/index";
 import {Textarea} from "$lib/shadcncomponents/ui/textarea/index";
+import {apply} from "$lib/controllers/applicationController";
 
 
+export let advertId: number;
 
 export let userInfo = {
     name: "",
@@ -11,11 +13,12 @@ export let userInfo = {
     email: "",
 };
 
-function handleSubmit(e: Event) {
+async function handleSubmit(e: Event) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
-    alert("TODO : send data to the backend");
+    const message = formData.get("message") as string;
+    const result = await apply(advertId, message);
+    console.log("apply result : ", result);
 }
 </script>
 <p class="text-xl ">Apply for the job : </p>

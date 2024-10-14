@@ -8,6 +8,7 @@
     import {goto} from "$app/navigation";
     import type {User} from "$lib/models/user";
 
+    export let id: number;
 
     let userInfos:User = writable<User>({
         id: 0,
@@ -38,6 +39,6 @@
     <Dialog.Trigger class={buttonVariants({ variant: "apply" })} on:click={handleClick}> Apply </Dialog.Trigger>
 
     <Dialog.Content class="w-full sm:w-full md:w-full lg:w-full max-w-[80%]">
-        <ApplyForm userInfo="{ {name: $userInfos.name , firstName: $userInfos.firstname, email: $userInfos.email} }" ></ApplyForm>
+        <ApplyForm advertId="{id}" userInfo="{ {name: $userInfos.name , firstName: $userInfos.firstname, email: $userInfos.email} }" ></ApplyForm>
     </Dialog.Content>
 </Dialog.Root>

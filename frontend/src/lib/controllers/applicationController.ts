@@ -1,12 +1,36 @@
 
 
-export async function apply(name: string, firstName: string, email: string, advertId: number){
-    const response = await fetch('http://localhost:3000/apply', {
+export async function apply(advertId: number, message: string){
+    const response = await fetch('http://localhost:3000/application/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({name, firstName, email, advertId})
+        credentials : 'include',
+        body: JSON.stringify({advertId, message})
     });
-    return response.json();
+
+    if (!response.ok){
+        switch(response.status){
+            case 400:
+                alert('Invalid request');
+                break;
+            case 401:
+                alert('Unauthorized');
+                break;
+            case 404:
+                alert('Advert not found');
+                break;
+            case 409:
+                alert('Already applied');
+                break;
+            default:
+                alert('Something went wrong');
+                break;
+        }
+    }
+    else{
+        alert('Application sent');
+        return await response.json();
+    }
 }
