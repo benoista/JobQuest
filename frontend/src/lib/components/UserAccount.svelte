@@ -9,6 +9,13 @@
     import {goto} from "$app/navigation";
     import {browser} from "$app/environment";
     import {redirect} from "@sveltejs/kit";
+    import {myapplication} from "$lib/controllers/applicationController";
+    import type {Advertisement} from "$lib/models/advertisement";
+    import {getContext} from "svelte";
+    import type {Application} from "$lib/models/applications";
+    import { onMount } from 'svelte';
+    import { removeMyApp } from '$lib/controllers/applicationController';
+    import {getAdvertisementsbyID} from "$lib/controllers/advertisementsController"
 
 
 
@@ -43,12 +50,32 @@
         console.log("Password modified");
     }
 
+        let apps: Application[] = [];
+
+        onMount(async () => {
+            try {
+                apps = await myapplication();
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            }
+        });
+
+        async function handleRemove(id: number) {
+        try {
+            await removeMyApp(id);  // Appelle l'API pour supprimer l'application
+            // Mise à jour de la liste en supprimant l'application localement
+            apps = apps.filter(app => app.id !== id);
+        } catch (error) {
+            console.error('Error removing application:', error);
+        }
+        }
 </script>
 
-<Tabs.Root value="account" class="w-[400px]">
-    <Tabs.List class="grid w-full grid-cols-2">
+<Tabs.Root value="account" class="w-max">
+    <Tabs.List class="grid w-full grid-cols-3">
         <Tabs.Trigger value="account">Account</Tabs.Trigger>
         <Tabs.Trigger value="password">Password</Tabs.Trigger>
+        <Tabs.Trigger value="applications">Applications</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="account">
         <Card.Root>
@@ -98,6 +125,37 @@
                     <Button>Save password</Button>
                 </Card.Footer>
             </form>
+        </Card.Root>
+    </Tabs.Content>
+    <Tabs.Content value="applications" class="w-max">
+        <Card.Root class="w-full">
+            <Card.Header>
+                <Card.Title>All your applications</Card.Title>
+                <Card.Description>
+                    Here you will find all your applications to job offer
+                </Card.Description>
+            </Card.Header>
+            <Card.Content class="flex justify-center w-full">
+                <div class="flex flex-col p-2 gap-2 w-full">
+                    {#if apps.length > 0}
+                        {#each apps as app}
+                            <div class="border p-2 flex flex-col w-full">
+                                <div class="w-42">
+                                    <p class="font-bold text-center underline">{app.ads}</p>
+                                    <p class="w-8">{app.message}</p>
+                                    <p class="w-8">{app.id_ads}</p>
+                                </div>
+                                <div>
+                                    <Button variant="destructive" on:click={() => handleRemove(app.id_ads)}>Delete</Button>
+                                    <Button variant="apply">Modify</Button>
+                                </div>
+                            </div>
+                        {/each}
+                    {:else}
+                        <p>No applications found.</p>
+                    {/if}
+                </div>
+            </Card.Content>
         </Card.Root>
     </Tabs.Content>
 </Tabs.Root>

@@ -1,5 +1,6 @@
 export type Application = {
-    idAdvert: number;
+    id_ads: number;
+    ads: string;
     idUser: number;
     message: string;
 }

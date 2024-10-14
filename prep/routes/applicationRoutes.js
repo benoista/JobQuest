@@ -60,7 +60,7 @@ router.get('/myApplications', (req, res) => {
     }
     const id = getUserId(token);
 
-    const query = 'SELECT * FROM applications WHERE id_people = (?)';
+    const query = 'SELECT id_ads, (SELECT title FROM advertisements WHERE advertisements.id = applications.id_ads) as ads, message FROM applications WHERE id_people = (?)';
     const values = [id];
 
     db.query(query, values, (err, results) => {
@@ -140,6 +140,8 @@ router.delete('/remove', (req, res) => {
     const values = [advertId, userId];
 
     db.query(query, values, (err, results) => {
+        console.log(query);
+        console.log(values);
         if (err) {
             return res.status(500).send('Error when deleting data :');
         }
