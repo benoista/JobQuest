@@ -1,13 +1,14 @@
 import type {Advertisement} from "$lib/models/advertisement";
 import type {Application} from "$lib/models/applications";
 
-export async function apply(name: string, firstName: string, email: string, advertId: number){
-    const response = await fetch('http://localhost:3000/apply', {
+export async function apply(advertId: number, message: string){
+    const response = await fetch('http://localhost:3000/application/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({name, firstName, email, advertId})
+        credentials : 'include',
+        body: JSON.stringify({advertId, message})
     });
     if (!response.ok){
         switch(response.status){
@@ -91,3 +92,4 @@ export async function removeMyApp(id: number){
         console.error('Error:', error);
     }
 }
+

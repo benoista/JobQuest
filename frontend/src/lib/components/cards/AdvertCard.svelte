@@ -38,7 +38,7 @@
     <Card.Footer>
         <div class="flex flex-row gap-3">
             <LearnMoreButton id="{smallAdvert.id}"></LearnMoreButton>
-            <ApplyButton></ApplyButton>
+            <ApplyButton id="{smallAdvert.id}"></ApplyButton>
         </div>
     </Card.Footer>
 </Card.Root>
