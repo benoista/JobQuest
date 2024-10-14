@@ -21,9 +21,9 @@
 
 
 <Dialog.Root>
-    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}> Apply </Dialog.Trigger>
+    <Dialog.Trigger class={buttonVariants({ variant: "apply" })}> Apply </Dialog.Trigger>
 
-    <Dialog.Content class="w-full sm:w-full md:w-full lg:w-full max-w-[80%]">
+    <Dialog.Content class="w-full">
         <ApplyForm userInfo="{userInfos}" ></ApplyForm>
     </Dialog.Content>
 </Dialog.Root>

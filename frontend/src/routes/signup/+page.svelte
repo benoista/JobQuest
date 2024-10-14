@@ -33,54 +33,56 @@
 
 {#if (width >= 1024)}
     <div
-        class="container h-[100vh] justify-center px-0 items-center lg:grid lg:max-w-none lg:grid-cols-2 lg:px-0"
+            class="container h-[100vh] justify-center px-0 items-center lg:grid lg:max-w-none lg:grid-cols-2 lg:px-0"
     >
 
-    <!-- Left side -->
+        <!-- Left side -->
         <div class=" bg-muted w-full relative h-full flex-col lg:flex dark:border-r max-lg:blur-sm">
-            <div class="absolute inset-0 bg-cover"></div>
+            <div class="absolute inset-0 bg-cover" style="background-image: url('/images/background.jpg');"></div>
         </div>
 
 
-            <!-- Right side -->
-            <div class="lg:p-8">
-                <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                    <div class="flex flex-col space-y-2 text-center">
-                        <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
-                    </div>
-                    <form on:submit={handleSubmit} class="flex flex-col gap-4">
-                        <Input type="text" name="name" placeholder="Name" required/>
-                        <Input type="text" name="firstname" placeholder="Firstname" required/>
-                        <Input type="email" name="email" placeholder="Email" required/>
-                        <Input type="password" name="password" placeholder="Password" required/>
-                        <Button type="submit"> Sign up </Button>
-                    </form>
+        <!-- Right side -->
+        <div class="lg:p-8">
+            <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+                <div class="flex flex-col space-y-2 text-center">
+                    <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
                 </div>
+                <form on:submit={handleSubmit} class="flex flex-col gap-4">
+                    <Input type="text" name="name" placeholder="Name" required/>
+                    <Input type="text" name="firstname" placeholder="Firstname" required/>
+                    <Input type="email" name="email" placeholder="Email" required/>
+                    <Input type="password" name="password" placeholder="Password" required/>
+                    <Button type="submit"> Sign up </Button>
+                </form>
             </div>
         </div>
+    </div>
 {:else}
     <div class="flex items-center justify-center h-[100vh]">
+        <div class="flex items-center justify-center h-[100vh] w-full" style="background-image: url('/images/background.jpg');">
         <div class="flex flex-col" style="backdrop-filter: blur(10px)">
-                <Card.Root class="bg-opacity-20 text-white">
-                    <Card.Header>
-                        <Card.Title tag="h2" class="text-2xl"> Create an account </Card.Title>
-                        <Card.Description>
+            <Card.Root class="bg-opacity-20 text-white">
+                <Card.Header>
+                    <Card.Title tag="h2" class="text-2xl"> Create an account </Card.Title>
+                    <Card.Description>
 
-                        </Card.Description>
-                    </Card.Header>
-                    <Card.Content>
-                        <form on:submit={handleSubmit} class="text-black flex flex-col gap-2">
-                            <Input type="text" name="name" placeholder="Name" required />
-                            <Input type="text" name="firstname" placeholder="Firstname" required />
-                            <Input type="email" name="email" placeholder="Email" required />
-                            <Input type="password" name="password" placeholder="Password" required />
+                    </Card.Description>
+                </Card.Header>
+                <Card.Content>
+                    <form on:submit={handleSubmit} class="text-black flex flex-col gap-2">
+                        <Input type="text" name="name" placeholder="Name" required />
+                        <Input type="text" name="firstname" placeholder="Firstname" required />
+                        <Input type="email" name="email" placeholder="Email" required />
+                        <Input type="password" name="password" placeholder="Password" required />
 
-                            <Card.Footer>
-                                <Button type="submit" class="items-center"> Sign up </Button>
-                            </Card.Footer>
-                        </form>
-                    </Card.Content>
-                </Card.Root>
+                        <Card.Footer>
+                            <Button type="submit" class="items-center"> Sign up </Button>
+                        </Card.Footer>
+                    </form>
+                </Card.Content>
+            </Card.Root>
+        </div>
         </div>
     </div>
 {/if}

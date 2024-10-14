@@ -14,8 +14,8 @@ function handleSubmit(e: Event) {
     console.log(data);
 }
 </script>
-
-<form action="" on:submit={handleSubmit}>
+<p class="text-xl ">Apply for the job : </p>
+<form action="" on:submit={handleSubmit} class="flex flex-col gap-2 p-2">
     <Input name="name" placeholder="name" value="{userInfo.name}"/>
     <Input name="firstName" placeholder="first name" value="{userInfo.firstName}"/>
     <Input name="email" placeholder="email" value="{userInfo.email}"/>

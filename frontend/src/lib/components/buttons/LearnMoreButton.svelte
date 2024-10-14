@@ -7,6 +7,7 @@
     import { Input } from "$lib/shadcncomponents/ui/input/index.js";
     import { Label } from "$lib/shadcncomponents/ui/label/index.js";
     import type {User} from "$lib/models/user";
+    import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
 
     /**
      * TODO - Fetch the full data and displays it in the Dialog
@@ -29,7 +30,7 @@
         fullCARD
 
         <Dialog.Footer>
-            <Button type="submit"> Apply </Button>
+            <ApplyButton></ApplyButton>
         </Dialog.Footer>
     </Dialog.Content>
 </Dialog.Root>
