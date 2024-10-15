@@ -17,7 +17,12 @@
 
 <Card.Root class="transition-transform duration-300 hover:scale-105">
     <Card.Header>
-        <Card.Title tag="h2" class="text-2xl">{smallAdvert.title}</Card.Title>
+        <Card.Title tag="h2" class="text-2xl">
+        <p class="text-xl group relative w-max flex justify-center">
+            <span class="px-1 relative z-10 group-hover:text-white">{smallAdvert.title}</span>
+            <span class="absolute left-0 bottom-0 w-full h-0.5 transition-all bg-[#90BC81]/80 z-0 group-hover:h-full "></span>
+        </p>
+        </Card.Title>
         <Card.Description>
             <div class="flex flex-col gap-2">
                 <div class="text-xl font-bold">{smallAdvert.company}</div>
