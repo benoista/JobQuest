@@ -2,6 +2,7 @@
 import type {Advertisement} from "$lib/models/advertisement";
 import type {Application} from "$lib/models/applications";
 
+
 export async function apply(advertId: number, message: string){
     const response = await fetch('http://localhost:3000/application/add', {
         method: 'POST',
@@ -11,6 +12,7 @@ export async function apply(advertId: number, message: string){
         credentials : 'include',
         body: JSON.stringify({advertId, message})
     });
+
     if (!response.ok){
         switch(response.status){
             case 400:
@@ -29,7 +31,8 @@ export async function apply(advertId: number, message: string){
                 alert('Something went wrong');
                 break;
         }
-    } else{
+    }
+    else{
         alert('Application sent');
         return await response.json();
     };
@@ -157,5 +160,66 @@ export async function removeMyApp(id: number){
         return json;
     } catch (error) {
         console.error('Error:', error);
+    }
+}
+
+
+export async function updateApplication(id_ads: number, id_people: number, message: string) {
+    const body = {id_ads: id_ads, id_people: id_people,  message: message};
+    const response = await fetch('http://localhost:3000/application/admin/update/', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials : 'include',
+        body: JSON.stringify(body)
+    });
+    if (!response.ok){
+        switch(response.status){
+            case 400:
+                alert('Invalid request');
+                break;
+            case 401:
+                alert('Unauthorized');
+                break;
+            case 404:
+                alert('Application not found');
+                break;
+            default:
+                alert('Something went wrong');
+                break;
+        }
+    }
+    else{
+        alert('Application updated');
+    }
+}
+
+export async function deleteApplication(id_ads: number, id_people: number){
+    const res = await fetch('http://localhost:3000/application/admin/remove?advertId=' + id_ads + "&userId=" + id_people, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials : 'include',
+    });
+    if (!res.ok){
+        switch(res.status){
+            case 400:
+                alert('Invalid request');
+                break;
+            case 401:
+                alert('Unauthorized');
+                break;
+            case 404:
+                alert('Application not found');
+                break;
+            default:
+                alert('Something went wrong');
+                break;
+        }
+    }
+    else{
+        alert('Application deleted');
     }
 }

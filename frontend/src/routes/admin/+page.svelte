@@ -16,14 +16,19 @@
     } from "$lib/controllers/advertisementsController";
     import {createUser, getAllUsers, updateUser} from "$lib/controllers/userController";
     import {createCompany, deleteCompany, getAllCompanies, updateCompany} from "$lib/controllers/companiesController";
-    import {createSector, getAllSectors} from "$lib/controllers/sectorController";
-    import {adminCreateApplication, getAllApplications} from "$lib/controllers/applicationController";
+    import {createSector, deleteSector, getAllSectors, updateSector} from "$lib/controllers/sectorController";
+    import {
+        adminCreateApplication, deleteApplication,
+        getAllApplications,
+        updateApplication
+    } from "$lib/controllers/applicationController";
     import {Button} from "$lib/shadcncomponents/ui/button";
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {Label} from "$lib/shadcncomponents/ui/label";
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";
     import {onMount} from "svelte";
     import {deleteUser} from "$lib/controllers/userController.js";
+    import Header from "$lib/components/Header.svelte";
 
      let users : Writable<User[]> = writable([]);
      let companies: Writable<Company[]> = writable([]);
@@ -213,26 +218,24 @@
         });
     }
 
-    function handleDeleteSector(id:number) {
-        deleteSector(id);
-        getAllSectors().then((data) => {
-            $sectors = data ?? [];
+    function handleDeleteSector(id: number) {
+        deleteSector(id).then(() => {
+            getAllSectors().then((data) => {
+                $sectors = data ?? [];
+            });
         });
     }
 
-    function handleUpdateApplication(id:number) {
-        let id_ads = document.getElementById(`application${id}-id_ads`)?.textContent;
-        let id_people = document.getElementById(`application${id}-id_people`)?.textContent;
-        let message = document.getElementById(`application${id}-message`)?.textContent;
-        console.log(id_ads, id_people, message);
-        updateApplication(id, id_ads, id_people, message);
+    function handleUpdateApplication(id_ads: number, id_people: number) {
+        let message = document.getElementById(`application{id_ads}-{id_people}-message`)?.textContent;
+        updateApplication(id_ads, id_people, message);
         getAllApplications().then((data) => {
             $applications = data ?? [];
         });
     }
 
-    function handleDeleteApplication(id:number) {
-        deleteApplication(id);
+    function handleDeleteApplication(id_ads:number, id_people:number) {
+        deleteApplication(id_ads, id_people);
         getAllApplications().then((data) => {
             $applications = data ?? [];
         });
@@ -241,16 +244,13 @@
 </script>
 
 
-<header>
-    <h1>ADMIN PAGE</h1>
-    <a href="/"> Home page </a>
-    <div>
+<Header>
 
-    </div>
-</header>
+    <Button href="/" variant="apply">Home</Button>
+</Header>
 
 
-<div class="">
+<div class="mt-5">
 
     <Tabs.Root class="flex flex-col items-center justify-center">
 
@@ -291,7 +291,7 @@
                         {/each}
                     </select>
                 </div>
-                <Button type="submit" variant="apply">Create</Button>
+                <Button type="submit" variant="apply">Create Advertisement</Button>
             </form>
 
             <Table.Root>
@@ -339,17 +339,11 @@
         <!-- USERS PAGE Display users and the possibility to create/update/delete any user -->
         <Tabs.Content value="users">
 
-            <form action="" class="flex flex-row" on:submit={handleCreateUser}>
+            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateUser}>
                 <Input type="text" name="name" placeholder="name"></Input>
                 <Input type="text" name="firstname" placeholder="firstname"></Input>
                 <Input type="email" name="email" placeholder="email"></Input>
-                <Input type="password" name="password" placeholder="password"></Input>
-
-                <Label for="isadmin">isAdmin</Label>
-                <Input id="isadmin" name="isadmin" type="checkbox" placeholder="is_admin"></Input>
-                <Label for="isuser" >isUser</Label>
-                <Input id="isuser" name="isuser" type="checkbox" placeholder="is_user"></Input>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" variant="apply">Create User</Button>
             </form>
 
 
@@ -389,10 +383,10 @@
         <!-- COMPANIES PAGE Display companies and the possibility to create/update/delete any company -->
         <Tabs.Content value="companies">
 
-            <form action="" class="flex flex-row" on:submit={handleCreateCompany}>
+            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateCompany}>
                 <Input name="name" type="text" placeholder="name"></Input>
                 <Input name="website" type="text" placeholder="website"></Input>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" variant="apply">Create Company</Button>
             </form>
 
             <Table.Root>
@@ -424,11 +418,11 @@
         <!-- APPLICATIONS PAGE Display applications and the possibility to create/update/delete any application -->
         <Tabs.Content value="applications">
 
-            <form action="" class="flex flex-row" on:submit={handleCreateApplication}>
+            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateApplication}>
                 <Input type="number" name="idadvert" placeholder="idAdvert"></Input>
                 <Input type="number" name="iduser" placeholder="idUser"></Input>
                 <Input type="text" name="message" placeholder="message"></Input>
-                <Button type="submit" variant="apply">Submit</Button>
+                <Button type="submit" variant="apply">Create Application</Button>
             </form>
 
 
@@ -447,10 +441,10 @@
                         <Table.Row>
                             <Table.Cell class="text-center">{application.id_ads}</Table.Cell>
                             <Table.Cell class="text-center">{application.id_people}</Table.Cell>
-                            <Table.Cell class="text-center" id="application">{application.message}</Table.Cell>
+                            <Table.Cell class="text-center" contenteditable="true" id="application{application.id_ads}-{application.id_people}-message">{application.message}</Table.Cell>
                             <Table.Cell class="text-center">
-                                <Button variant="apply">Update</Button>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="apply" on:click={() => handleUpdateApplication(application.id_ads, application.id_people)}>Update</Button>
+                                <Button variant="destructive" on:click={() => handleDeleteApplication(application.id_ads,application.id_people)}>Delete</Button>
                             </Table.Cell>
                         </Table.Row>
                     {/each}
@@ -460,9 +454,9 @@
 
         <!-- SECTORS PAGE Display sectors and the possibility to create/update/delete any sector -->
         <Tabs.Content value="sectors">
-            <form action="" class="flex flex-row" on:submit={handleCreateSector}>
+            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateSector}>
                 <Input type="text" name="name" placeholder="sector name"></Input>
-                <Button type="submit">Create</Button>
+                <Button type="submit" variant="apply">Create Sector</Button>
             </form>
 
             <Table.Root>
@@ -478,10 +472,10 @@
                     {#each $sectors as sector}
                         <Table.Row>
                             <Table.Cell class="text-center">{sector.id}</Table.Cell>
-                            <Table.Cell class="text-center">{sector.name}</Table.Cell>
+                            <Table.Cell class="text-center" id="sector{sector.id}-name">{sector.name}</Table.Cell>
                             <Table.Cell class="text-center">
-                                <Button variant="apply">Update</Button>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="apply" on:click={() => handleUpdateSector(sector.id)}>Update</Button>
+                                <Button variant="destructive" on:click={() => handleDeleteSector(sector.id)}>Delete</Button>
                             </Table.Cell>
                         </Table.Row>
                     {/each}
