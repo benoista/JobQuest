@@ -4,7 +4,7 @@
     import { Button } from "$lib/shadcncomponents/ui/button/index";
     import { Input } from "$lib/shadcncomponents/ui/input/index";
     import { Label } from "$lib/shadcncomponents/ui/label/index";
-    import {updateUser} from "$lib/controllers/userController";
+    import {Updatepwd, updateUser} from "$lib/controllers/userController";
     import type {User} from "$lib/models/user";
     import {goto} from "$app/navigation";
     import {browser} from "$app/environment";
@@ -32,10 +32,10 @@
     // TODO implement this function
     async function handleModifyAccount(event: SubmitEvent) {
         event.preventDefault();
-        console.log("Account modified");
         const formData = new FormData(event.target);
         let name = formData.get("name") as string;
         let firstname = formData.get("firstName") as string;
+
         //  try to update user in the database
         if (await updateUser(userInfo.id, firstname, name , userInfo.email) == true){
             console.log("User updated");
@@ -45,10 +45,18 @@
     }
 
     // TODO implement this function
-    function handleModifyPassword(event: SubmitEvent) {
+    async function handleModifyPassword(event: SubmitEvent) {
         event.preventDefault();
-        console.log("Password modified");
-    }
+        const formData = new FormData(event.target);
+        let current = formData.get("current") as string;
+        let newPassword = formData.get("new") as string;
+        //  try to update user in the database
+        try {
+            await Updatepwd(userInfo.id, current, newPassword , userInfo.email);
+        }catch(error){
+            console.log(error);
+        }
+        }
 
         let apps: Application[] = [];
 
@@ -60,15 +68,10 @@
             }
         });
 
-        async function handleRemove(id: number) {
-        try {
-            await removeMyApp(id);  // Appelle l'API pour supprimer l'application
-            // Mise à jour de la liste en supprimant l'application localement
-            apps = apps.filter(app => app.id !== id);
-        } catch (error) {
-            console.error('Error removing application:', error);
+        function handleRemove(id: number) {
+            removeMyApp(id);
         }
-        }
+
 </script>
 
 <Tabs.Root value="account" class="w-max">
@@ -89,11 +92,11 @@
                 <Card.Content class="space-y-2">
                     <div class="space-y-1">
                         <Label for="name">Name</Label>
-                        <Input id="name" value="{userInfo.name}" />
+                        <Input name="name" value="{userInfo.name}" />
                     </div>
                     <div class="space-y-1">
                         <Label for="firstName">First Name</Label>
-                        <Input id="firstName" value="{userInfo.firstname}" />
+                        <Input name="firstName" value="{userInfo.firstname}" />
                     </div>
                 </Card.Content>
                 <Card.Footer>
@@ -114,15 +117,15 @@
                 <Card.Content class="space-y-2">
                     <div class="space-y-1">
                         <Label for="current">Current password</Label>
-                        <Input id="current" type="password" />
+                        <Input name="current" type="password" />
                     </div>
                     <div class="space-y-1">
                         <Label for="new">New password</Label>
-                        <Input id="new" type="password" />
+                        <Input name="new" type="password" />
                     </div>
                 </Card.Content>
                 <Card.Footer>
-                    <Button>Save password</Button>
+                    <Button type="submit">Save password</Button>
                 </Card.Footer>
             </form>
         </Card.Root>
