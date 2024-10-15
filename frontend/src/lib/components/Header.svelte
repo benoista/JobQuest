@@ -8,8 +8,10 @@
     import LogoutButton from "$lib/components/buttons/LogoutButton.svelte";
     import img from "$lib/images/logoJobQuest.png";
     import {writable} from "svelte/store";
+    import {isAdmin} from "$lib/controllers/authentication";
+    import { onMount } from 'svelte';
 
-     const  aa :  User = {
+    const  aa :  User = {
         id: 1,
         name: "Admingee",
         firstname: "Admingee",
@@ -33,7 +35,13 @@
     if (browser){
         $token = document.cookie;
     }
-    console.log($token);
+    let admin = writable();
+    async function checkIfAdmin() {
+        $admin = await isAdmin();
+    }
+    onMount(() => {
+        checkIfAdmin();
+    });
 </script>
 
 <header class="p-5 flex items-center bg-[#315659]/10">
@@ -47,6 +55,9 @@
                 <a href="/login" class="bg-[#90BC81] text-black p-3 rounded">Sign in</a>
                 <a href="/signup" class="bg-[#90BC81] text-black p-3 rounded">Sign up</a>
                 {:else}
+                {#if $admin==true}
+                    <a href="/admin" class="bg-[#90BC81] text-black p-2 rounded">Admin</a>
+                {/if}
                 <a href="/profile" class="bg-[#90BC81] text-black p-2 rounded">Profil</a>
                 <LogoutButton></LogoutButton>
                 {/if}
@@ -69,6 +80,9 @@
                 </div>
                 {:else}
                     <div id="menu" class="hidden absolute w-max bg-white right-0">
+                        {#if $admin==true}
+                            <a href="/admin" class="block px-4 py-2 text-black hover:bg-gray-100">Admin</a>
+                        {/if}
                         <a href="/profile" class="block px-4 py-2 text-black hover:bg-gray-100">Profil</a>
                         <LogoutButton></LogoutButton>
                     </div>
