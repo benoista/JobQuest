@@ -10,27 +10,8 @@
     import {writable} from "svelte/store";
     import {isAdmin} from "$lib/controllers/authentication";
     import { onMount } from 'svelte';
-
-    const  aa :  User = {
-        id: 1,
-        name: "Admingee",
-        firstname: "Admingee",
-        email: "    ",
-        is_admin: true,
-        is_user: false,
-     }
-
-    let width = 0;
-    if (browser) {
-        width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
-        window.addEventListener('resize',() => {
-            width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-        });
-    }
-
-    const state = getContext('state');
-    $: console.log("State change : " + JSON.stringify($state));
+    import {goto} from "$app/navigation";
+  
     let token = writable();
     if (browser){
         $token = document.cookie;
@@ -46,7 +27,9 @@
 
 <header class="p-5 flex items-center bg-[#315659]/10">
     <div class="w-1/6">
-        <img src="{img}" alt="JobQuest Logo" class="w-2/4">
+        <a href="/">
+            <img src="{img}" alt="JobQuest Logo" class="w-2/4">
+        </a>
     </div>
     <div class="w-5/6 flex">
         <div class="hidden lg:flex justify-end items-center w-full gap-2">

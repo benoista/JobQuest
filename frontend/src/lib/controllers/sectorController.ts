@@ -15,7 +15,9 @@ export async function getSectors(){
                     console.log('An error occurred');
             }
         }
-        return await res.json();
+        let data: Sector[] = await res.json();
+        return data;
+
 
     } catch (error) {
         console.error('Error:', error);
@@ -82,6 +84,7 @@ export async function deleteSector(id: number){
     try {
         const res = await fetch('http://localhost:3000/sector/remove?id=' + id, {
             method: 'DELETE',
+
             credentials: 'include', // include JWT token in the request
         });
         if (!res.ok) {

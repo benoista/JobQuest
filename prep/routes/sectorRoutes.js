@@ -58,6 +58,7 @@ router.delete('/remove', (req, res) => {
 
     db.query(query, values, (err, results) => {
         if (err) {
+            console.log(err)
             return res.status(500).send('Error when deleting data :');
         }
 
@@ -74,7 +75,7 @@ router.delete('/remove', (req, res) => {
 //Select Update 1
 router.put('/update', (req, res) => {
     const id = req.query.id;
-    const name = req.query.name;
+    const {name} = req.body;
 
     const query = 'UPDATE sector SET name = ? WHERE id = ?';
     const values = [name, id];

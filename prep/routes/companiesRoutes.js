@@ -73,14 +73,14 @@ router.delete('/remove', (req, res) => {
 //Update 1
 router.put('/update', (req, res) => {
     const id = req.query.id;
-    const name = req.query.name;
-    const website = req.query.website;
+    const {name, website} = req.body;
 
-    const query = 'UPDATE sector SET name = ?, website = ? WHERE id = ?';
+    const query = 'UPDATE companies SET name = ?, website = ? WHERE id = ?';
     const values = [name, website, id];
 
     db.query(query, values, (err, results) => {
         if (err) {
+            console.log(err)
             return res.status(500).send('Error when updating data :');
         }
         res.status(200).send(true);
