@@ -163,7 +163,7 @@ export async function getSectorByName(name:string){
 
 export async function getAllSectors(){
     try {
-        const res = await fetch('http://localhost:3000/sectors');
+        const res = await fetch('http://localhost:3000/sector');
         if (!res.ok) {
             switch (res.status) {
                 case 401:

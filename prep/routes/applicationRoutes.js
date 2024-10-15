@@ -8,7 +8,6 @@ const {authorizeAdmin, getUserId} = require("../auth");
  * Select ALL applications in the database
  * this route is reserved for administrators
  */
-
 router.get('/', (req, res) => {
 
     if (!authorizeAdmin(req)){return res.status(401).send("Unauthorized")} // Check if the user is an administrator
@@ -109,6 +108,7 @@ router.post('/admin/add', (req, res) => {
 
 
     const { advertId, userId, message } = req.body;
+    console.log(advertId, userId, message);
     const query = 'INSERT INTO applications (id_ads, id_people, message) VALUES (?, ?, ?)';
     const values = [advertId, userId, message];
 

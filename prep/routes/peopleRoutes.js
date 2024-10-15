@@ -73,11 +73,12 @@ router.get('/isadmin', (req, res) => {
 //Add new person 
 router.post('/add', (req, res) => {
     const { name, firstname, email} = req.body;
-    const query = 'INSERT INTO people (name, firstname, email) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO people (name, firstname, email, is_user, password) VALUES (?, ?, ?, 0, "")';
     const values = [name, firstname, email];
 
     db.query(query, values, (err, results) => {
         if (err) {
+            console.log(err)
             return res.status(500).send('Error during adding data:');
         }
         res.status(200).send(true); 
@@ -182,7 +183,34 @@ router.put('/update', (req, res) => {
             res.status(200).send(true);
         });
     }
+
 });
+
+/*
+const id = req.query.id;
+    if (!id) {
+        return res.status(400).send('ID is needed');
+    }
+
+    const { name, firstname, email, password} = req.body;
+    let query = "";
+    let values = [];
+    if (!password){
+         query = 'UPDATE people SET name = ?, firstname = ?, email = ? WHERE id = ?';
+         values = [name, firstname, email, id];
+    } else {
+         query = 'UPDATE people SET name = ?, firstname = ?, email = ?, password = ? WHERE id = ?';
+         values = [name, firstname, email, password, id];
+    }
+
+    db.query(query, values, (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error when updating data');
+        }
+        res.status(200).send(true);
+    });
+   */
 
 
 
