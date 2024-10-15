@@ -82,6 +82,7 @@ export async function deleteSector(id: number){
     try {
         const res = await fetch('http://localhost:3000/sector/remove?id=' + id, {
             method: 'DELETE',
+
             credentials: 'include', // include JWT token in the request
         });
         if (!res.ok) {
