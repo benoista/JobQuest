@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import type {Advertisement} from "$lib/models/advertisement";
+        import type {Advertisement} from "$lib/models/advertisement";
     import type {ContractType} from "$lib/models/contractType.ts";
     import {mockAdverts} from "$lib/mock-data/mock-adverts";
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";

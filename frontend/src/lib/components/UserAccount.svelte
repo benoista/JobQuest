@@ -4,11 +4,18 @@
     import { Button } from "$lib/shadcncomponents/ui/button/index";
     import { Input } from "$lib/shadcncomponents/ui/input/index";
     import { Label } from "$lib/shadcncomponents/ui/label/index";
-    import {updateUser} from "$lib/controllers/userController";
+    import {Updatepwd, updateUser} from "$lib/controllers/userController";
     import type {User} from "$lib/models/user";
     import {goto} from "$app/navigation";
     import {browser} from "$app/environment";
     import {redirect} from "@sveltejs/kit";
+    import {myapplication} from "$lib/controllers/applicationController";
+    import type {Advertisement} from "$lib/models/advertisement";
+    import {getContext} from "svelte";
+    import type {Application} from "$lib/models/applications";
+    import { onMount } from 'svelte';
+    import { removeMyApp } from '$lib/controllers/applicationController';
+    import {getAdvertisementsbyID} from "$lib/controllers/advertisementsController"
 
 
 
@@ -25,10 +32,10 @@
     // TODO implement this function
     async function handleModifyAccount(event: SubmitEvent) {
         event.preventDefault();
-        console.log("Account modified");
         const formData = new FormData(event.target);
         let name = formData.get("name") as string;
         let firstname = formData.get("firstName") as string;
+
         //  try to update user in the database
         if (await updateUser(userInfo.id, firstname, name , userInfo.email) == true){
             console.log("User updated");
@@ -38,17 +45,40 @@
     }
 
     // TODO implement this function
-    function handleModifyPassword(event: SubmitEvent) {
+    async function handleModifyPassword(event: SubmitEvent) {
         event.preventDefault();
-        console.log("Password modified");
-    }
+        const formData = new FormData(event.target);
+        let current = formData.get("current") as string;
+        let newPassword = formData.get("new") as string;
+        //  try to update user in the database
+        try {
+            await Updatepwd(userInfo.id, current, newPassword , userInfo.email);
+        }catch(error){
+            console.log(error);
+        }
+        }
+
+        let apps: Application[] = [];
+
+        onMount(async () => {
+            try {
+                apps = await myapplication();
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            }
+        });
+
+        function handleRemove(id: number) {
+            removeMyApp(id);
+        }
 
 </script>
 
-<Tabs.Root value="account" class="w-[400px]">
-    <Tabs.List class="grid w-full grid-cols-2">
+<Tabs.Root value="account" class="w-max">
+    <Tabs.List class="grid w-full grid-cols-3">
         <Tabs.Trigger value="account">Account</Tabs.Trigger>
         <Tabs.Trigger value="password">Password</Tabs.Trigger>
+        <Tabs.Trigger value="applications">Applications</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="account">
         <Card.Root>
@@ -62,11 +92,11 @@
                 <Card.Content class="space-y-2">
                     <div class="space-y-1">
                         <Label for="name">Name</Label>
-                        <Input id="name" value="{userInfo.name}" />
+                        <Input name="name" value="{userInfo.name}" />
                     </div>
                     <div class="space-y-1">
                         <Label for="firstName">First Name</Label>
-                        <Input id="firstName" value="{userInfo.firstname}" />
+                        <Input name="firstName" value="{userInfo.firstname}" />
                     </div>
                 </Card.Content>
                 <Card.Footer>
@@ -87,17 +117,48 @@
                 <Card.Content class="space-y-2">
                     <div class="space-y-1">
                         <Label for="current">Current password</Label>
-                        <Input id="current" type="password" />
+                        <Input name="current" type="password" />
                     </div>
                     <div class="space-y-1">
                         <Label for="new">New password</Label>
-                        <Input id="new" type="password" />
+                        <Input name="new" type="password" />
                     </div>
                 </Card.Content>
                 <Card.Footer>
-                    <Button>Save password</Button>
+                    <Button type="submit">Save password</Button>
                 </Card.Footer>
             </form>
+        </Card.Root>
+    </Tabs.Content>
+    <Tabs.Content value="applications" class="w-max">
+        <Card.Root class="w-full">
+            <Card.Header>
+                <Card.Title>All your applications</Card.Title>
+                <Card.Description>
+                    Here you will find all your applications to job offer
+                </Card.Description>
+            </Card.Header>
+            <Card.Content class="flex justify-center w-full">
+                <div class="flex flex-col p-2 gap-2 w-full">
+                    {#if apps.length > 0}
+                        {#each apps as app}
+                            <div class="border p-2 flex flex-col w-full">
+                                <div class="w-42">
+                                    <p class="font-bold text-center underline">{app.ads}</p>
+                                    <p class="w-8">{app.message}</p>
+                                    <p class="w-8">{app.id_ads}</p>
+                                </div>
+                                <div>
+                                    <Button variant="destructive" on:click={() => handleRemove(app.id_ads)}>Delete</Button>
+                                    <Button variant="apply">Modify</Button>
+                                </div>
+                            </div>
+                        {/each}
+                    {:else}
+                        <p>No applications found.</p>
+                    {/if}
+                </div>
+            </Card.Content>
         </Card.Root>
     </Tabs.Content>
 </Tabs.Root>
