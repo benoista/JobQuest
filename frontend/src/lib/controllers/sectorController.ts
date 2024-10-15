@@ -15,7 +15,9 @@ export async function getSectors(){
                     console.log('An error occurred');
             }
         }
-        return await res.json();
+        let data: Sector[] = await res.json();
+        return data;
+
 
     } catch (error) {
         console.error('Error:', error);

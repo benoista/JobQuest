@@ -7,33 +7,15 @@
     import type {User} from "$lib/models/user";
     import LogoutButton from "$lib/components/buttons/LogoutButton.svelte";
     import img from "$lib/images/logoJobQuest.png";
-
-     const  aa :  User = {
-        id: 1,
-        name: "Admingee",
-        firstname: "Admingee",
-        email: "    ",
-        is_admin: true,
-        is_user: false,
-     }
-
-    let width = 0;
-    if (browser) {
-        width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
-        window.addEventListener('resize',() => {
-            width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-        });
-    }
-
-    const state = getContext('state');
-    $: console.log("State change : " + JSON.stringify($state));
+    import {goto} from "$app/navigation";
 
 </script>
 
 <header class="p-5 flex items-center bg-[#315659]/10">
     <div class="w-1/6">
-        <img src="{img}" alt="JobQuest Logo" class="w-2/4">
+        <a href="/">
+            <img src="{img}" alt="JobQuest Logo" class="w-2/4">
+        </a>
     </div>
     <div class="w-5/6 flex">
         <div class="hidden lg:flex justify-end items-center w-full gap-2">
@@ -41,7 +23,6 @@
                 <a href="/login" class="bg-[#90BC81] text-black p-2 rounded">Sign in</a>
                 <a href="/signup" class="bg-[#90BC81] text-black p-2 rounded">Sign up</a>
                 <DarkMode></DarkMode>
-                <Button on:click={() => $state.userState = aa}>Admingee</Button>
             </div>
         </div>
 

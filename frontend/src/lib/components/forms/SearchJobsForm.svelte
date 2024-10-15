@@ -6,9 +6,10 @@
     import {getAdvertisements, getAllAdvertisements} from "$lib/controllers/advertisementsController";
     import {getContext} from "svelte";
     import {getSectors} from "$lib/controllers/sectorController";
+    import type {Sector} from "$lib/models/sector";
 
     const advertsStore = getContext('adverts');
-    let sectorsArray = [];
+    let sectorsArray: Sector[] = [];
     getSectors().then((s) => sectorsArray = s);
     function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
