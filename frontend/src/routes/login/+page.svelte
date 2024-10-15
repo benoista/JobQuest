@@ -11,7 +11,7 @@
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
     import Location from "$lib/components/icons/Location.svelte";
-    import {Button} from "$lib/shadcncomponents/ui/button";
+    import {Button, buttonVariants} from "$lib/shadcncomponents/ui/button";
     import {handleSignUp} from "$lib/controllers/authentication";
     import * as env from "$app/stores";
 
@@ -50,8 +50,9 @@
                     <form on:submit={(e) => handleSignIn(e)} class="text-black flex flex-col gap-4">
                         <Input type="email" name="email" placeholder="Email" required />
                         <Input type="password" name="password" placeholder="Password" required />
-                        <Button type="submit">Sign In</Button>
+                        <Button type="submit" class={buttonVariants({ variant: "apply" })}>LogIn</Button>
                     </form>
+                    <Button class={buttonVariants({ variant: "destructive" })} href="/">Home</Button>
                 </div>
             </div>
         </div>
@@ -70,9 +71,10 @@
                         <form on:submit={handleSignIn} class="text-black flex flex-col gap-2">
                             <Input type="email" name="email" placeholder="Email" required />
                             <Input type="password" name="password" placeholder="Password" required />
-                            <Button type="submit">Sign In</Button>
+                            <Button type="submit" class={buttonVariants({ variant: "apply" })}>Sign In</Button>
                         </form>
                     </Card.Content>
+                    <Button class={buttonVariants({ variant: "destructive" })} href="/">Home</Button>
                 </Card.Root>
         </div>
         </div>
