@@ -74,7 +74,7 @@
 
 </script>
 
-<Tabs.Root value="account" class="w-max">
+<Tabs.Root value="account">
     <Tabs.List class="grid w-full grid-cols-3">
         <Tabs.Trigger value="account">Account</Tabs.Trigger>
         <Tabs.Trigger value="password">Password</Tabs.Trigger>
@@ -146,7 +146,6 @@
                                 <div class="w-42">
                                     <p class="font-bold text-center underline">{app.ads}</p>
                                     <p class="w-8">{app.message}</p>
-                                    <p class="w-8">{app.id_ads}</p>
                                 </div>
                                 <div>
                                     <Button variant="destructive" on:click={() => handleRemove(app.id_ads)}>Delete</Button>

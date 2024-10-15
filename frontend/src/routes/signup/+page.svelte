@@ -9,7 +9,7 @@
     import Backpack from "$lib/components/icons/Backpack.svelte";
     import LearnMoreButton from "$lib/components/buttons/LearnMoreButton.svelte";
     import Location from "$lib/components/icons/Location.svelte";
-    import {Button} from "$lib/shadcncomponents/ui/button";
+    import {Button, buttonVariants} from "$lib/shadcncomponents/ui/button";
     let width = 0;
     if (browser) {
         width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -53,8 +53,9 @@
                     <Input type="text" name="firstname" placeholder="Firstname" required/>
                     <Input type="email" name="email" placeholder="Email" required/>
                     <Input type="password" name="password" placeholder="Password" required/>
-                    <Button type="submit"> Sign up </Button>
+                    <Button type="submit" class={buttonVariants({ variant: "apply" })}> Sign up </Button>
                 </form>
+                <Button class={buttonVariants({ variant: "destructive" })} href="/">Home</Button>
             </div>
         </div>
     </div>
@@ -77,10 +78,11 @@
                         <Input type="password" name="password" placeholder="Password" required />
 
                         <Card.Footer>
-                            <Button type="submit" class="items-center"> Sign up </Button>
+                            <Button type="submit" class={buttonVariants({ variant: "apply" })}> Sign up </Button>
                         </Card.Footer>
                     </form>
                 </Card.Content>
+                <Button class={buttonVariants({ variant: "destructive" })} href="/">Home</Button>
             </Card.Root>
         </div>
         </div>
