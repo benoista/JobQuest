@@ -15,7 +15,7 @@
         updateAdvertisement
     } from "$lib/controllers/advertisementsController";
     import {createUser, getAllUsers, updateUser} from "$lib/controllers/userController";
-    import {createCompany, getAllCompanies} from "$lib/controllers/companiesController";
+    import {createCompany, deleteCompany, getAllCompanies, updateCompany} from "$lib/controllers/companiesController";
     import {createSector, getAllSectors} from "$lib/controllers/sectorController";
     import {adminCreateApplication, getAllApplications} from "$lib/controllers/applicationController";
     import {Button} from "$lib/shadcncomponents/ui/button";
@@ -187,6 +187,57 @@
         });
     }
 
+    function handleUpdateCompany(id:number) {
+        let name = document.getElementById(`company${id}-name`)?.textContent;
+        let website = document.getElementById(`company${id}-website`)?.textContent;
+        console.log(name, website);
+        updateCompany(id, name, website);
+        getAllCompanies().then((data) => {
+            $companies = data ?? [];
+        });
+    }
+
+    function handleDeleteCompany(id:number) {
+        deleteCompany(id);
+        getAllCompanies().then((data) => {
+            $companies = data ?? [];
+        });
+    }
+
+    function handleUpdateSector(id:number) {
+        let name = document.getElementById(`sector${id}-name`)?.textContent;
+        console.log(name);
+        updateSector(id, name);
+        getAllSectors().then((data) => {
+            $sectors = data ?? [];
+        });
+    }
+
+    function handleDeleteSector(id:number) {
+        deleteSector(id);
+        getAllSectors().then((data) => {
+            $sectors = data ?? [];
+        });
+    }
+
+    function handleUpdateApplication(id:number) {
+        let id_ads = document.getElementById(`application${id}-id_ads`)?.textContent;
+        let id_people = document.getElementById(`application${id}-id_people`)?.textContent;
+        let message = document.getElementById(`application${id}-message`)?.textContent;
+        console.log(id_ads, id_people, message);
+        updateApplication(id, id_ads, id_people, message);
+        getAllApplications().then((data) => {
+            $applications = data ?? [];
+        });
+    }
+
+    function handleDeleteApplication(id:number) {
+        deleteApplication(id);
+        getAllApplications().then((data) => {
+            $applications = data ?? [];
+        });
+    }
+
 </script>
 
 
@@ -240,7 +291,7 @@
                         {/each}
                     </select>
                 </div>
-                <Button type="submit">Create</Button>
+                <Button type="submit" variant="apply">Create</Button>
             </form>
 
             <Table.Root>
@@ -357,12 +408,12 @@
                 <Table.Body>
                     {#each $companies as company}
                         <Table.Row>
-                            <Table.Cell class="text-center">{company.id}</Table.Cell>
-                            <Table.Cell class="text-center">{company.name}</Table.Cell>
-                            <Table.Cell class="text-center">{company.website}</Table.Cell>
+                            <Table.Cell class="text-center" >{company.id}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="company{company.id}-name">{company.name}</Table.Cell>
+                            <Table.Cell contenteditable="true" class="text-center" id="company{company.id}-website">{company.website}</Table.Cell>
                             <Table.Cell class="text-center">
-                                <Button variant="apply">Update</Button>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="apply" on:click={() => handleUpdateCompany(company.id)}>Update</Button>
+                                <Button variant="destructive" on:click={() => handleDeleteCompany(company.id)}>Delete</Button>
                             </Table.Cell>
                         </Table.Row>
                     {/each}
@@ -377,7 +428,7 @@
                 <Input type="number" name="idadvert" placeholder="idAdvert"></Input>
                 <Input type="number" name="iduser" placeholder="idUser"></Input>
                 <Input type="text" name="message" placeholder="message"></Input>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" variant="apply">Submit</Button>
             </form>
 
 
@@ -396,7 +447,7 @@
                         <Table.Row>
                             <Table.Cell class="text-center">{application.id_ads}</Table.Cell>
                             <Table.Cell class="text-center">{application.id_people}</Table.Cell>
-                            <Table.Cell class="text-center">{application.message}</Table.Cell>
+                            <Table.Cell class="text-center" id="application">{application.message}</Table.Cell>
                             <Table.Cell class="text-center">
                                 <Button variant="apply">Update</Button>
                                 <Button variant="destructive">Delete</Button>
