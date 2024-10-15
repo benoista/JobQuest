@@ -157,7 +157,37 @@ router.delete('/remove', (req, res) => {
 
 //Select Update 1
 router.put('/update', (req, res) => {
-    const id = req.query.id;
+    const { id, name, firstname, email, current, newPassword } = req.body;
+    if (!current && !newPassword){
+        const query = 'UPDATE people SET name = ?, firstname = ?, email = ? WHERE id = ?';
+        const values = [name, firstname, email, id];
+        db.query(query, values, (err, results) => {
+            if (err) {
+                return res.status(404).send('Error when updating data');
+            }
+            res.status(200).send(true);
+        });
+    }else {
+        const test = hashPassword(current);
+        const query = 'UPDATE people SET password = ? WHERE id = ? AND password = ?';
+        const values = [hashPassword(newPassword), id, test];
+        console.log(query);
+        console.log(values);
+        db.query(query, values, (err, results) => {
+            if (err) {
+                return res.status(404).send('Error when updating data');
+            }
+            if (results.affectedRows === 0) {
+                return res.status(400).send('No rows updated, possibly incorrect ID');
+            }
+            res.status(200).send(true);
+        });
+    }
+
+});
+
+/*
+const id = req.query.id;
     if (!id) {
         return res.status(400).send('ID is needed');
     }
@@ -180,7 +210,7 @@ router.put('/update', (req, res) => {
         }
         res.status(200).send(true);
     });
-});
+   */
 
 
 

@@ -95,12 +95,13 @@ export async function deleteUser(id: number){
 
 export async function updateUser(id: number, firstname: string, name: string, email: string): Promise<boolean>{
     const body = {
-        name: name,
+        id: id,
         firstname: firstname,
-        email: email
+        name: name,
+        email: email,
     }
     try {
-        const res = await fetch('http://localhost:3000/people/update?id=' + id, {
+        const res = await fetch('http://localhost:3000/people/update',{
             method: 'PUT',
             mode: "cors",
             headers: {
@@ -194,5 +195,44 @@ export async function getUserInfoWithToken(){
 
     } catch (error) {
         console.error('Error:', error);
+    }
+}
+
+export async function Updatepwd(id: number, current: string, newPassword: string): Promise<boolean> {
+    const body = {
+        id: id,
+        current: current,
+        newPassword: newPassword,
+    };
+    try {
+        const res = await fetch('http://localhost:3000/people/update',{
+            method: 'PUT',
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            credentials: 'include', // include JWT token in the request
+        });
+        if (!res.ok) {
+            switch (res.status) {
+                case 401:
+                    alert('Unauthorized');
+                    return false;
+                case 404:
+                    alert('Not found');
+                    return false;
+                default:
+                    alert('An error occurred');
+                    return false;
+            }
+        } else {
+            alert('User updated');
+            return true;
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
     }
 }
