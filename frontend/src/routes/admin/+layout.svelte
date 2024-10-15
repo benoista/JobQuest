@@ -11,8 +11,7 @@
 
 onMount(async () => {
         if ( !await isAdmin() ) {
-            alert("You are not an admin");
-            await goto("/login");
+            await goto("/croissant");
         }
 });
 

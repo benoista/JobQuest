@@ -19,7 +19,7 @@ export async function apply(advertId: number, message: string){
                 alert('Invalid request');
                 break;
             case 401:
-                alert('Unauthorized');
+                console.log('Unauthorized');
                 break;
             case 404:
                 alert('Advert not found');
@@ -82,7 +82,7 @@ export async function getAllApplications(){
     if (!response.ok){
         switch(response.status){
             case 401:
-                alert('Unauthorized');
+                console.log('Unauthorized');
                 break;
             default:
                 alert('Something went wrong');
@@ -116,7 +116,7 @@ export async function adminCreateApplication(advertId: number, userId: number , 
                 alert('Invalid request');
                 break;
             case 401:
-                alert('Unauthorized');
+                console.log('Unauthorized');
                 break;
             case 404:
                 alert('Advert not found');
@@ -180,7 +180,7 @@ export async function updateApplication(id_ads: number, id_people: number, messa
                 alert('Invalid request');
                 break;
             case 401:
-                alert('Unauthorized');
+                console.log('Unauthorized');
                 break;
             case 404:
                 alert('Application not found');
@@ -209,7 +209,7 @@ export async function deleteApplication(id_ads: number, id_people: number){
                 alert('Invalid request');
                 break;
             case 401:
-                alert('Unauthorized');
+                console.log('Unauthorized');
                 break;
             case 404:
                 alert('Application not found');
