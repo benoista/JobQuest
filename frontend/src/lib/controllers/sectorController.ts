@@ -18,7 +18,6 @@ export async function getSectors(){
         let data: Sector[] = await res.json();
         return data;
 
-
     } catch (error) {
         console.error('Error:', error);
     }

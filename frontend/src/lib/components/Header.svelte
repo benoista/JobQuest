@@ -11,7 +11,8 @@
     import {isAdmin} from "$lib/controllers/authentication";
     import { onMount } from 'svelte';
     import {goto} from "$app/navigation";
-  
+    import {writable} from "svelte/store";
+
     let token = writable();
     if (browser){
         $token = document.cookie;

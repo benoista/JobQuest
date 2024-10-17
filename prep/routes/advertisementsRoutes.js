@@ -55,7 +55,28 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get("/all", (req, res) => {
 
+    const page = req.query.page;
+    const limit = req.query.page;
+    const offset = (page - 1) * limit;
+
+    // Import the 'fs' module to work with the file system
+    const fs = require('fs');
+    // Read the SQL file synchronously
+    const sqlFilePath = './scripts/pagination.sql';  // Replace with the correct file path
+    const sqlQuery = fs.readFileSync(sqlFilePath, 'utf8') + ` LIMIT ${limit} OFFSET ${offset}`;
+
+
+    // Log or use the SQL query as needed
+    db.query(sqlQuery, page,  (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send("aaazeazeazeaz");
+        }
+        return res.status(200).json(results);
+    })
+});
 
 //Add new person 
 router.post('/add', (req, res) => {
