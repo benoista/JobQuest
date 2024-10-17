@@ -3,22 +3,24 @@
     import * as Dialog from "$lib/shadcncomponents/ui/dialog";
     import ApplyForm from "$lib/components/forms/ApplyForm.svelte";
     import {getContext} from "svelte";
-    import {writable} from "svelte/store";
+    import {type Writable, writable} from "svelte/store";
     import {getUserInfoWithToken} from "$lib/controllers/userController";
     import {goto} from "$app/navigation";
     import type {User} from "$lib/models/user";
 
     export let id: number;
 
-    let userInfos:User = writable<User>({
-        id: 0,
-        name: "",
-        firstname: "",
-        email: "",
-        password: "",
-        is_admin: false,
-        is_user:false,
-    });
+    let userInfos:Writable<User> = writable<User>(
+          {
+            id: 0,
+            name: "",
+            firstname: "",
+            email: "",
+            password: "",
+            is_admin: false,
+            is_user:false,
+        }
+    );
 
     // On click : get the user information given the token stored as a cookie
     async function handleClick(){
@@ -27,8 +29,17 @@
             $userInfos = res;
         }
         else{
-            alert("You need to be logged in to apply to a job");
-            await goto("/login");
+            //alert("You need to be logged in to apply to a job");
+            //await goto("/login");
+            $userInfos = {
+                id: 0,
+                name: "",
+                firstname: "",
+                email: "",
+                password: "",
+                is_admin: false,
+                is_user:false,
+            }
         }
     }
 

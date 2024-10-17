@@ -8,6 +8,7 @@
     import LogoutButton from "$lib/components/buttons/LogoutButton.svelte";
     import img from "$lib/images/logoJobQuest.png";
     import {goto} from "$app/navigation";
+    import {writable} from "svelte/store";
     let token = writable();
     if (browser){
         $token = document.cookie;
