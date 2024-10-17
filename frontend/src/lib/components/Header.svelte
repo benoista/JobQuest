@@ -7,7 +7,6 @@
     import type {User} from "$lib/models/user";
     import LogoutButton from "$lib/components/buttons/LogoutButton.svelte";
     import img from "$lib/images/logoJobQuest.png";
-    import {writable} from "svelte/store";
     import {isAdmin} from "$lib/controllers/authentication";
     import { onMount } from 'svelte';
     import {goto} from "$app/navigation";
