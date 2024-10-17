@@ -217,7 +217,7 @@ export async function Updatepwd(id: number, current: string, newPassword: string
         if (!res.ok) {
             switch (res.status) {
                 case 401:
-                    alert('Unauthorized');
+                    console.log('Unauthorized');
                     return false;
                 case 404:
                     alert('Not found');
