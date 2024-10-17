@@ -2,7 +2,8 @@
 import {Input} from "$lib/shadcncomponents/ui/input/index";
 import {Button} from "$lib/shadcncomponents/ui/button/index";
 import {Textarea} from "$lib/shadcncomponents/ui/textarea/index";
-import {apply} from "$lib/controllers/applicationController";
+import {apply, applyNoAccount} from "$lib/controllers/applicationController";
+import {browser} from "$app/environment";
 
 
 export let advertId: number;
@@ -17,8 +18,16 @@ async function handleSubmit(e: Event) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const message = formData.get("message") as string;
-    const result = await apply(advertId, message);
-    console.log("apply result : ", result);
+    if (browser) {
+        if (document.cookie == ""){
+            const name = formData.get("name") as string;
+            const firstName = formData.get("firstName") as string;
+            const email = formData.get("email") as string;
+            await applyNoAccount(name, firstName, email, message, advertId);
+        } else {
+            await apply(advertId, message);
+        }
+    }
 }
 </script>
 <p class="text-xl ">Apply for the job : </p>

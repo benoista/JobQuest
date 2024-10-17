@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db.js');
 const {authorizeAdmin, getUserId} = require("../auth");
+const {json} = require("express");
 
 /**
  * Select ALL applications in the database
@@ -70,16 +71,53 @@ router.get('/myApplications', (req, res) => {
     });
 });
 
+
+router.post("/addNoAccount" , (req, res) => {
+
+    const advertId = req.query.id;
+    const {name, firstname, email, message} = req.body;
+
+    // create account for this email
+    const createAccountQuery = 'INSERT INTO people (name, firstname, email, is_user, password) VALUES (?, ?, ?, 0,"password")';
+    const createAccountValues = [name, firstname, email];
+    let accountId = 0;
+    db.query(createAccountQuery, createAccountValues, (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send('Error during adding data:');
+        }
+
+        accountId = results.insertId;
+        const query = 'INSERT INTO applications (id_ads, id_people, message) VALUES (?, ?, ?)';
+        const values = [Number(advertId), accountId, message];
+
+        db.query(query, values, (err, results) => {
+            if (err) {
+                console.log("error on insert application : " , err)
+                switch (err.code) {
+                    case 'ER_DUP_ENTRY':
+                        return res.status(409).send('Application already exists');
+                    default:
+                        return res.status(500).send('Error during adding data:');
+                }
+            }
+            res.status(200).send(true);
+        });
+    });
+});
+
+
 /**
  * Add a new application
  * if the user is not an administrator, he can only add an application for himself
+ * if the user is not logged in or has no account, create an account
  */
 router.post('/add', (req, res) => {
 
     // get the user id from the token and check if the user is connected
     const token = req.cookies["token"];
     console.log(token);
-    if (token === "" || token === undefined) {
+    if (token === "" || token === undefined) {  /// user is not connected or has no account
         return res.status(401).send("Unauthorized")
     }
     const userId = getUserId(token);

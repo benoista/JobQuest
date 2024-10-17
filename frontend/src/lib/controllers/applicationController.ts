@@ -2,6 +2,46 @@
 import type {Advertisement} from "$lib/models/advertisement";
 import type {Application} from "$lib/models/applications";
 
+export async function applyNoAccount(name: string, firstName: string, email: string, message: string, advertId: number){
+    const body =  {
+        name,
+        firstname: firstName,
+        email,
+        message
+    }
+
+    const response = await fetch('http://localhost:3000/application/addNoAccount?id=' + advertId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials : 'include',
+        body: JSON.stringify(body)
+    });
+    if (!response.ok){
+        switch(response.status){
+            case 400:
+                alert('Invalid request');
+                break;
+            case 401:
+                console.log('Unauthorized');
+                break;
+            case 404:
+                alert('Advert not found');
+                break;
+            case 409:
+                alert('Already applied');
+                break;
+            default:
+                alert('Something went wrong');
+                break;
+        }
+    }
+    else{
+        alert('Application sent');
+        return await response.json();
+    }
+}
 
 export async function apply(advertId: number, message: string){
     const response = await fetch('http://localhost:3000/application/add', {
