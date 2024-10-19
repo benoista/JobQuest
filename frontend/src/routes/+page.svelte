@@ -12,7 +12,6 @@
     import {buttonVariants} from "$lib/shadcncomponents/ui/button";
     import ApplyButton from "$lib/components/buttons/ApplyButton.svelte";
     import AddAdsButton from "$lib/components/buttons/AddAdsButton.svelte";
-    import {getAdvertisements, getAllAdvertisements} from "$lib/controllers/advertisementsController";
 
 
 
