@@ -19,7 +19,7 @@
     }
 </script>
 <div class="mx-3">
-    <form action="" class="flex lg:flex-row gap-3 flex-col m-4 p-3" on:submit={(e) => handleSubmit(e)}>
+    <form id="searchForm" action="" class="flex lg:flex-row gap-3 flex-col m-4 p-3" on:submit={(e) => handleSubmit(e)}>
         <Input type="text" name="title" id="title" placeholder="Title" class="bg-[#315659]/10 rounded"> </Input>
         <Input type="number" name="salary" id="salary" placeholder="Salary" class="bg-[#315659]/10 rounded"> </Input>
         <Input type="text" name="location" id="location" placeholder="Location" class="bg-[#315659]/10 rounded"> </Input>
