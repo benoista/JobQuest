@@ -173,6 +173,7 @@ export async function getAllSectors(){
                     console.log('Unauthorized');
                     break;
                 case 404:
+                    console.log(res);
                     console.log('Not found');
                     break;
                 default:

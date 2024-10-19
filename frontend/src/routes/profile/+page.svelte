@@ -8,6 +8,7 @@
     import {writable} from "svelte/store";
     import {redirect} from "@sveltejs/kit";
     import {buttonVariants} from "$lib/shadcncomponents/ui/button";
+    import Header from "$lib/components/Header.svelte";
 
 
     const state = getContext('state');
@@ -34,9 +35,7 @@
 </script>
 
 
-<div class="flex justify-end p-4">
-    <a  class="text-3xl {buttonVariants({ variant: 'apply' })}" href="/">Home</a>
-</div>
+<Header></Header>
 <div class="flex flex-col justify-center items-center">
     {#if $state.userState != null}
         <h1 class="text-3xl p-2">Welcome, {$state.userState.firstname} {$state.userState.name}</h1>
