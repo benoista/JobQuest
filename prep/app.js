@@ -19,7 +19,9 @@ const companiesRoutes = require('./routes/companiesRoutes.js');
 const advertisementsRoutes = require('./routes/advertisementsRoutes.js');
 const sectorRoutes = require('./routes/sectorRoutes.js');
 const applicationRoutes = require('./routes/applicationRoutes.js');
+const recruterRoutes = require('./routes/recruterRoutes.js');
 
+app.use('/recruter', recruterRoutes);
 app.use('/people', peopleRoutes);
 app.use('/advertisements', advertisementsRoutes);
 app.use('/companies', companiesRoutes);
