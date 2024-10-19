@@ -13,6 +13,12 @@
 
     export let smallAdvert : Advertisement;
 
+    const date = new Date(smallAdvert.date);
+    const formattedDate = date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
 </script>
 
 <Card.Root class="transition-transform duration-300 hover:scale-105">
@@ -30,7 +36,7 @@
                     <div class="flex flex-row"><Backpack></Backpack> {smallAdvert.contract_type} </div>
                     <div class="flex flex-row"><Salary></Salary> {smallAdvert.salary} </div>
                     <div class="flex flex-row"><Location></Location> {smallAdvert.localization} </div>
-                    <div class="flex flex-row"><Calendar></Calendar> {smallAdvert.date} </div>
+                    <div class="flex flex-row"><Calendar></Calendar> {formattedDate} </div>
                     <div class="flex flex-row"><Sector></Sector> {smallAdvert.sector} </div>
                     <div class="flex flex-row"><Clock></Clock>{smallAdvert.working_time} </div>
                 </div>
