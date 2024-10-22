@@ -22,13 +22,15 @@
         getAllApplications,
         updateApplication
     } from "$lib/controllers/applicationController";
-    import {Button} from "$lib/shadcncomponents/ui/button";
+    import {Button, buttonVariants} from "$lib/shadcncomponents/ui/button";
     import {Input} from "$lib/shadcncomponents/ui/input";
     import {Label} from "$lib/shadcncomponents/ui/label";
     import AdvertCard from "$lib/components/cards/AdvertCard.svelte";
-    import {onMount} from "svelte";
+    import * as Dialog from "$lib/shadcncomponents/ui/dialog";
+    import {getContext, onMount} from "svelte";
     import {deleteUser} from "$lib/controllers/userController.js";
     import Header from "$lib/components/Header.svelte";
+    import {DropdownMenu} from "bits-ui";
 
      let users : Writable<User[]> = writable([]);
      let companies: Writable<Company[]> = writable([]);
@@ -241,20 +243,22 @@
         });
     }
 
+    let state = getContext("state");
+
+
 </script>
 
 
 <Header>
-
     <Button href="/" variant="apply">Home</Button>
 </Header>
 
 
-<div class="mt-5">
+<div>
 
-    <Tabs.Root class="flex flex-col items-center justify-center">
+    <Tabs.Root class="flex items-center justify-center flex-col">
 
-        <Tabs.List>
+        <Tabs.List class="flex flex-row flex-wrap">
             <Tabs.Trigger value="advertisements">Advertisements</Tabs.Trigger>
             <Tabs.Trigger value="users">Users</Tabs.Trigger>
             <Tabs.Trigger value="companies">Companies</Tabs.Trigger>
@@ -264,10 +268,10 @@
 
 
         <!-- ADVERTISEMENTS PAGE Display advertisements and the possibility to create/update/delete any advertisement -->
-        <Tabs.Content value="advertisements">
+        <Tabs.Content value="advertisements" class="w-2/3">
 
-            <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateAdvertisement}>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem ">
+            <form action="" class="flex flex-col gap-3 m-2 p-1"  on:submit={handleCreateAdvertisement}>
+                <div class="flex flex-row flex-wrap items-center justify-center">
                     <Input type="text" placeholder="Title" name="title"></Input>
                     <Input type="text" placeholder="short_description" name="short"></Input>
                     <Input type="text" placeholder="description" name="description"></Input>
@@ -275,21 +279,25 @@
                     <Input type="date" placeholder="date" name="date"></Input>
                     <Input type="number" placeholder="working_time" name="working_time"></Input>
                     <Input type="text" placeholder="localization" name="localization"></Input>
-                    <select name="sector">
-                        {#each $sectors as sector }
-                            <option value="{sector.name}">{sector.name}</option>
-                        {/each}
-                    </select>
-                    <select name="company">
-                        {#each $companies as company }
-                            <option value="{company.name}">{company.name}</option>
-                        {/each}
-                    </select>
-                    <select name="contract">
-                        {#each ["CDI", "CDD", "Stage", "Alternance"] as contract }
-                            <option value="{contract}">{contract}</option>
-                        {/each}
-                    </select>
+                    <div class="flex flex-row gap-2 m-2 justify-center items-center">
+                        <select name="sector">
+                            {#each $sectors as sector }
+                                <option value="{sector.name}">{sector.name}</option>
+                            {/each}
+                        </select>
+                        <select name="company">
+                            {#each $companies as company }
+                                <option value="{company.name}">{company.name}</option>
+                            {/each}
+                        </select>
+                        <select name="contract">
+                            {#each ["CDI", "CDD", "Stage", "Alternance"] as contract }
+                                <option value="{contract}">{contract}</option>
+                            {/each}
+                        </select>
+
+                    </div>
+
                 </div>
                 <Button type="submit" variant="apply">Create Advertisement</Button>
             </form>
@@ -337,7 +345,7 @@
         </Tabs.Content>
 
         <!-- USERS PAGE Display users and the possibility to create/update/delete any user -->
-        <Tabs.Content value="users">
+        <Tabs.Content value="users" class="w-2/3">
 
             <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateUser}>
                 <Input type="text" name="name" placeholder="name"></Input>
