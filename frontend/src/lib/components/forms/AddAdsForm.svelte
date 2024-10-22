@@ -38,7 +38,7 @@
 </script>
 <p class="text-xl ">Add new Advertisements : </p>
 <form action="" class="flex flex-col gap-3 m-3 p-3" on:submit={handleCreateAdvertisement}>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem ">
+    <div class="flex flex-col gap-3">
         <Input type="text" placeholder="Title" name="title"></Input>
         <Input type="text" placeholder="short_description" name="short"></Input>
         <Input type="text" placeholder="description" name="description"></Input>
